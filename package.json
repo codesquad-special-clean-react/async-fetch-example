@@ -4,8 +4,9 @@
   "description": "",
   "main": "qna.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon ./server/app.js"
+    "start": "nodemon ./server/app.js",
+    "dev": "nodemon ./server/app.js",
+    "db": "json-server --watch data-sources/db.json -p 3001"
   },
   "author": "",
   "license": "ISC",
