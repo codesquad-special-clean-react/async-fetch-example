@@ -1,7 +1,7 @@
-const URL = {
-  questions: "http://localhost:3001/questions",
-  answers: "http://localhost:3001/answers",
-};
+// const URL = {
+//   questions: "http://localhost:3001/questions",
+//   answers: "http://localhost:3001/answers",
+// };
 
 function getAnswerTemplate(answers) {
   return answers.reduce((html, { content, userId, date }) => {
