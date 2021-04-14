@@ -48,6 +48,22 @@ function getQnATemplate(data) {
 	}, ``);
 }
 
+const BASE_URL = 'http://localhost:3001/'
+
+const contentLoading = () => {
+
+  let paths = ['questions', 'answers'];
+
+  const requests = paths.map(path =>fetch(`${BASE_URL + path}`));
+
+  Promise.all(requests)
+    .then(response => Promise.all(response.map((r, num) => r.json())))
+    .then((result)=> {
+      console.log(result )
+    })
+}
+
 document.addEventListener('DOMContentLoaded', () => {
 	//코드시작
+  contentLoading()
 });
