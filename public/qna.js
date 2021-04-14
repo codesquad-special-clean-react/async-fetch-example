@@ -1,9 +1,19 @@
+import Dialog from "./dialog.js";
+import Fetch from "./fetch.js";
+
 const URL = {
   questions: "http://localhost:3001/questions",
   answers: "http://localhost:3001/answers",
 };
-const QNADom = document.querySelector(".qna-wrap");
 
+const QNADom = document.querySelector(".qna-wrap");
+const NewBtn = document.querySelector(".new-question-btn");
+const DialogDom = document.querySelector(".new-question-wrap");
+
+const dialog = new Dialog(DialogDom);
+const fetch = new Fetch();
+
+// 함수 선언
 function getAnswerTemplate(answers) {
   return answers.reduce((html, { content, userId, date }) => {
     return (
@@ -49,12 +59,6 @@ function getQnATemplate(data) {
   }, ``);
 }
 
-function fetchData(url) {
-  return fetch(url)
-    .then((response) => response.json())
-    .catch((error) => console.log(`fetch error: ${error}`));
-}
-
 function makeNewQuestion(questions, answers) {
   return questions.map((question) => {
     const answer = answers.filter(
@@ -68,12 +72,27 @@ function makeNewQuestion(questions, answers) {
   });
 }
 
+// event
 document.addEventListener("DOMContentLoaded", async () => {
   //코드시작
-  const questions = await fetchData(URL.questions);
-  const answers = await fetchData(URL.answers);
-  const newQuestion = makeNewQuestion(questions, answers);
-
-  const QnATemplate = getQnATemplate(newQuestion);
-  QNADom.innerHTML = QnATemplate;
+  getQNAPage();
 });
+
+async function getData() {
+  const questions = await fetch.getData(URL.questions);
+  const answers = await fetch.getData(URL.answers);
+  const newQuestion = makeNewQuestion(questions, answers);
+  return newQuestion;
+}
+
+function renderView(baseDOM, newQuestion) {
+  const QnATemplate = getQnATemplate(newQuestion);
+  baseDOM.innerHTML = QnATemplate;
+}
+
+async function getQNAPage() {
+  const newQuestion = await getData();
+  renderView(QNADom, newQuestion);
+}
+
+NewBtn.addEventListener("click", () => dialog.view());
