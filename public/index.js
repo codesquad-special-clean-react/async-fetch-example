@@ -5,6 +5,7 @@ import Modal from "./components/Modal.js";
 const qnaWrap = document.querySelector(".qna-wrap");
 const newQuestionBtn = document.querySelector(".new-question-btn");
 const newQuestionWrap = document.querySelector(".new-question-wrap");
+const newQuestionSubmitBtn = document.querySelector(".new-question-submit-btn");
 const closeBtn = document.querySelector(".close-btn");
 
 const setQnATemplate = async () => {
@@ -14,15 +15,19 @@ const setQnATemplate = async () => {
 
 const init = () => {
   setQnATemplate();
-
-  newQuestionBtn.addEventListener("click", (e) => {
-    Modal(newQuestionWrap);
-  });
-
-  closeBtn.addEventListener("click", () => {
-    Modal(newQuestionWrap);
-  });
 };
+
+newQuestionBtn.addEventListener("click", () => {
+  Modal(newQuestionWrap);
+});
+
+closeBtn.addEventListener("click", () => {
+  Modal(newQuestionWrap);
+});
+
+newQuestionSubmitBtn.addEventListener("click", () => {
+  init();
+});
 
 document.addEventListener("DOMContentLoaded", () => {
   init();
