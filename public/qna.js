@@ -2,6 +2,7 @@ const URL = {
   questions: "http://localhost:3001/questions",
   answers: "http://localhost:3001/answers",
 };
+const QNADom = document.querySelector(".qna-wrap");
 
 function getAnswerTemplate(answers) {
   return answers.reduce((html, { content, userId, date }) => {
@@ -48,6 +49,31 @@ function getQnATemplate(data) {
   }, ``);
 }
 
-document.addEventListener("DOMContentLoaded", () => {
+function fetchData(url) {
+  return fetch(url)
+    .then((response) => response.json())
+    .catch((error) => console.log(`fetch error: ${error}`));
+}
+
+function makeNewQuestion(questions, answers) {
+  return questions.map((question) => {
+    const answer = answers.filter(
+      (answer) => answer.questionId === question.id
+    );
+
+    return {
+      ...question,
+      matchedComments: answer,
+    };
+  });
+}
+
+document.addEventListener("DOMContentLoaded", async () => {
   //코드시작
+  const questions = await fetchData(URL.questions);
+  const answers = await fetchData(URL.answers);
+  const newQuestion = makeNewQuestion(questions, answers);
+
+  const QnATemplate = getQnATemplate(newQuestion);
+  QNADom.innerHTML = QnATemplate;
 });
