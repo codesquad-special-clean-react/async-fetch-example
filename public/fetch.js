@@ -8,13 +8,15 @@ export default class Fetch {
   }
 
   postData(url, body) {
-    return fetch("http://localhost:3001/questions", {
+    const option = {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body,
-    })
+    };
+
+    return fetch(url, option)
       .then((response) => {
         console.log(response);
         return true;
@@ -24,18 +26,4 @@ export default class Fetch {
         return false;
       });
   }
-  //     return fetch("http://localhost:3001/questions", {
-  //       method: "POST",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //       body: JSON.stringify({
-  //         title: title,
-  //         question: content,
-  //         userId: 3,
-  //       }),
-  //     })
-  //       .then((response) => console.log(response))
-  //       .catch((error) => console.log(`POST fetch error: ${error}`));
-  //   }
 }
