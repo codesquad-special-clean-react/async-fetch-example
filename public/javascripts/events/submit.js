@@ -1,4 +1,4 @@
-import { URL } from "../constants.js";
+import { URL, FETCH_POST_OPTIONS } from "../constants.js";
 import { toggleModal } from "./click.js";
 import { fetchQuestionsAndAnswers } from "./DOMContentLoaded.js";
 
@@ -16,11 +16,8 @@ const handleSubmitNewQuestion = async (form) => {
   try {
     const formData = getFormData(form);
     await fetch(URL.questions, {
-      method: "POST",
+      ...FETCH_POST_OPTIONS,
       body: JSON.stringify(formData),
-      headers: {
-        "Content-Type": "application/json",
-      },
     });
     toggleModal(false);
     fetchQuestionsAndAnswers();
