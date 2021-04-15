@@ -4,7 +4,7 @@ const getQnATemplate = (data) => {
   return data.reduce((html, { title, question, id, matchedComments = [] }) => {
     return (
       html +
-      ` <li class="qna" _questionId=${+id}>
+      ` <li class="qna" data-question-id=${+id}>
           <div class="qna-title">
             <h2>${title}</h2>
           </div>
