@@ -1,4 +1,4 @@
-const toggleModal = (open = true) => {
+export const toggleModal = (open = true) => {
   const modal = document.querySelector(".new-question-wrap");
   modal.style.display = open ? "block" : "none";
 };
