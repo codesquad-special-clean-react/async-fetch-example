@@ -1,6 +1,6 @@
 import { postQuestion } from '../utils/api.js'
 import { sel } from '../utils/util.js'
-import { MESSEGE } from '../utils/constant.js'
+import { MESSEGE, MODAL_STATUS } from '../utils/constant.js'
 
 export default function NewQuestion ($modal, render) {
   this.$title = sel('#q-title', $modal)
@@ -35,7 +35,7 @@ export default function NewQuestion ($modal, render) {
     const { $title, $question } = this
     $title.value = ''
     $question.value = ''
-    $modal.style.display = 'none'
+    $modal.style.display = MODAL_STATUS.CLOSE
   }
 
   const handleNewQuestion = async (e) => {

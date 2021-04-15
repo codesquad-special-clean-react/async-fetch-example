@@ -1,6 +1,6 @@
 import { getRequest } from '../utils/api.js'
 import { getQnATemplate } from '../utils/template.js'
-import { URL } from '../utils/constant.js'
+import { MODAL_STATUS, URL } from '../utils/constant.js'
 import { sel, selAll } from '../utils/util.js'
 import NewQuestion from './NewQuestion.js'
 import NewComment from './NewComment.js'
@@ -26,7 +26,7 @@ export default function QnA () {
   }
 
   const openModal = () => {
-    this.$newQnAModal.style.display = 'block'
+    this.$newQnAModal.style.display = MODAL_STATUS.OPEN
   }
 
   const contentLoading = () => {

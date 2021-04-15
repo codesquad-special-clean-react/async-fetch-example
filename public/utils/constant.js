@@ -8,3 +8,8 @@ export const MESSEGE = {
 }
 
 export const DELAY_TIME = 3000;
+
+export const MODAL_STATUS = {
+  OPEN : 'block',
+  CLOSE : 'none'
+}
