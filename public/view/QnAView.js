@@ -1,5 +1,5 @@
 class QnAView {
-  $root = document.querySelector('.qna-wrap');
+  $qnaList = document.querySelector('.qna-wrap');
   $newQuestionButton = document.querySelector('.new-question-btn');
 
   constructor(initialState) {
@@ -8,7 +8,7 @@ class QnAView {
   }
 
   render(data) {
-    this.$root.innerHTML = this.getQnATemplate(data);
+    this.$qnaList.innerHTML = this.getQnATemplate(data);
   }
 
   setViewState(newState) {
@@ -59,8 +59,8 @@ class QnAView {
                     <div class="answer-form">
                         <form method="POST">
                             <textarea name="answer-content" class="answer-content-textarea" cols="30" rows="2" placeholder="새로운답변.."></textarea>
+                            <button type="submit" class="answer-submit">등록</button>
                         </form>
-                        <button class="answer-submit">등록</button>
                     </div>
                 </li>
             `
