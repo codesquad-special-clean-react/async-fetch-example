@@ -22,10 +22,9 @@
     <button class="new-question-btn">새로운질문</button>
     <ul class="qna-wrap">
     </ul>
-    <iframe id="empty-iframe" name="empty-iframe" style="display:none"></iframe>
     <div class="new-question-wrap">
       <div class="close-btn">X</div>
-      <form id="new-q-form" action="http://localhost:3001/questions" method="post" target="empty-iframe">
+      <div id="new-q-form">
         <div>
           <label for="q-title">제목</label>
           <input type="text" name="title" id="q-title">
@@ -35,7 +34,7 @@
           <textarea name="question" id="q-content" cols="30" rows="10"></textarea>
         </div>
         <button class="new-question-submit-btn" type="submit">질문등록</button>
-      </form>
+      </div>
     </div>
   </div>
 
