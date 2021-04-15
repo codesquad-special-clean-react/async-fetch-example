@@ -1,13 +1,15 @@
+import { getAnswersMap } from "./javascripts/answers.js";
+
 const URL = {
-	questions: 'http://localhost:3001/questions',
-	answers: 'http://localhost:3001/answers',
+  questions: "http://localhost:3001/questions",
+  answers: "http://localhost:3001/answers",
 };
 
 function getAnswerTemplate(answers) {
-	return answers.reduce((html, { content, userId, date }) => {
-		return (
-			html +
-			`
+  return answers.reduce((html, { content, userId, date }) => {
+    return (
+      html +
+      `
         <li class="answer-list" ">
             <p class="answer-content">${content}</p>
             <div class="answer-profile">
@@ -15,21 +17,21 @@ function getAnswerTemplate(answers) {
                 <span class="answer-date">${date}</span>
             </div>
         </li>`
-		);
-	}, ``);
+    );
+  }, ``);
 }
 
 function getLoadingAnswerTpl() {
-	return `<li class="answer-list loading" ">
+  return `<li class="answer-list loading" ">
         Loading.....
      </li>`;
 }
 
 function getQnATemplate(data) {
-	return data.reduce((html, { title, question, id, matchedComments = [] }) => {
-		return (
-			html +
-			` <li class="qna" _questionId=${+id}>
+  return data.reduce((html, { title, question, id, matchedComments = [] }) => {
+    return (
+      html +
+      ` <li class="qna" _questionId=${+id}>
         <div class="qna-title">
             <h2>${title}</h2>
         </div>
@@ -44,10 +46,30 @@ function getQnATemplate(data) {
             <button class="answer-submit">등록</button>
         </div>
     </li>`
-		);
-	}, ``);
+    );
+  }, ``);
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-	//코드시작
+document.addEventListener("DOMContentLoaded", () => {
+  //코드시작
+  const requests = Object.keys(URL)
+    .sort()
+    .map((key) => fetch(URL[key]));
+  Promise.all(requests)
+    .then(async ([answers, questions]) => [
+      await answers.json(),
+      await questions.json(),
+    ])
+    .then(([answers, questions]) => {
+      const qnaWrap = document.querySelector(".qna-wrap");
+      const answersMap = getAnswersMap(answers);
+      qnaWrap.innerHTML = getQnATemplate(
+        questions.map((question) => {
+          if (answersMap[question.id]) {
+            question.matchedComments = answersMap[question.id];
+          }
+          return question;
+        })
+      );
+    });
 });
