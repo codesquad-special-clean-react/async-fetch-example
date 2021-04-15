@@ -1,32 +1,19 @@
+import {handleAddNewAnswerButtonClick} from './components/newAnswer.js';
 import {openNewQuestionModal, closeNewQuestionModal} from './components/newQuestion.js';
 import {addNewQuestion} from './components/newQuestion.js'
 
-
-function handleClickEvent({target}) {
-  if (target.classList.contains('new-question-btn')) {
-    openNewQuestionModal();
-    return;
-  }
-
-  if (target.classList.contains('close-btn')) {
-    closeNewQuestionModal();
-    return;
-  }
-
-  if (target.classList.contains('answer-submit')) {
-    addNewQuestion();
-    return;
-  }
-
-  if (target.type === 'submit') {
-    addNewQuestion();
-  }
-}
+export const ID = "SUMIN";
 
 export function addEvents() {
-  const mainWrapper = document.querySelector('div.main-wrap');
+  const [newQuestionButton] = document.getElementsByClassName('new-question-btn');
+  const [closeButton] = document.getElementsByClassName('close-btn');
+  const [qnaWrapper] = document.getElementsByClassName('qna-wrap')
+  const addNewQuestionButton = document.getElementById('new-q-form').querySelector('button');
 
-  mainWrapper.addEventListener('click', handleClickEvent);
+  newQuestionButton.addEventListener('click', openNewQuestionModal);
+  closeButton.addEventListener('click', closeNewQuestionModal);
+  qnaWrapper.addEventListener('click', handleAddNewAnswerButtonClick);
+  addNewQuestionButton.addEventListener('click', addNewQuestion);
 }
 
 export function preventSubmitEvent() {

@@ -2,9 +2,6 @@ import {getAnswerTemplate, getLoadingAnswerTpl} from "../qna.js";
 import {requestAnswers} from "../utils/api.js";
 import {getQuestionNodeByQuestionId, getQuestionAnswerNodes} from "./question.js";
 
-const questionAnswerNodes = getQuestionAnswerNodes();
-const questionLength = questionAnswerNodes.length;
-
 async function getAnswers() {
   try {
     return await requestAnswers();
@@ -13,21 +10,7 @@ async function getAnswers() {
   }
 }
 
-function renderLoadingUI() {
-  const loadingHTMLTemplate = getLoadingAnswerTpl();
-
-  for (let i = 0; i < questionLength; i += 1) {
-    questionNodes[i].insertAdjacentHTML('beforeend', loadingHTMLTemplate);
-  }
-}
-
-function removeLoadingUI() {
-  for (let i = 0; i < questionLength; i += 1) {
-    questionNodes[i].innerHTML = '';
-  }
-}
-
-function renderAnswer(answer) {
+export function renderAnswer(answer) {
   const {questionId} = answer;
 
   const answerHTMLTemplate = getAnswerTemplate([answer]);
@@ -45,8 +28,6 @@ function renderAnswers(answers =[]) {
 }
 
 export async function loadAnswers() {
-  renderLoadingUI();
   const answers = await getAnswers();
-  removeLoadingUI();
   renderAnswers(answers);
 }

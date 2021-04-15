@@ -23,3 +23,11 @@ export async function requestUsers() {
   const api = 'http://localhost:3001/users';
   return await getRequest(api);
 }
+
+export function requestAddNewAnswer(answer) {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve(true);
+    }, 3000);
+  })
+}

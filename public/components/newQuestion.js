@@ -1,4 +1,5 @@
-import {moveToScrollBottom} from '../plain.js';
+import {ID, moveToScrollBottom} from '../plain.js';
+import {getRandomId} from '../utils/random.js';
 import {renderQuestion} from './question.js';
 
 const newQuestionWrapper = document.querySelector('div.main-wrap div.new-question-wrap');
@@ -10,27 +11,19 @@ function initializeForm() {
   contentElement.value = '';
 }
 
-function getRandomNumber() {
-  return parseInt(Math.random() * 1000000, 10) + 20;
-}
 
 function isValidQuestion(title, question) {
-  if (title.trim() && question.trim()) {
-    return true;
-  }
-
-
-  alert('제목과 내용을 모두 입력해주세요.');
-  return false;
+  return title.trim() && question.trim()
 }
 
 export function addNewQuestion() {
   const title = titleElement.value;
   const question = contentElement.value;
-  const userId = 'USER_ID';
-  const questionId = getRandomNumber();
+  const userId = ID;
+  const questionId = getRandomId();
 
   if (! isValidQuestion(title, question)) {
+    alert('제목과 내용을 모두 입력해주세요.');
     return;
   }
 
