@@ -53,6 +53,10 @@ const api = {
     const message = postMessageForm(data);
     request(`${API_ENDPOINT}${URL.ANSWERS}`, message);
   },
+  postQuestion: (data) => {
+    const message = postMessageForm(data);
+    request(`${API_ENDPOINT}${URL.QUESTIOMS}`, message);
+  },
 };
 
 export default api;
