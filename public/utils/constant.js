@@ -6,3 +6,5 @@ export const URL = {
 export const MESSEGE = {
   IsNotFillTheContent : '제목또는 내용은 꼭 입력해주셔야 합니다'
 }
+
+export const DELAY_TIME = 3000;

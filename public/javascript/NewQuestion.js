@@ -1,6 +1,6 @@
-import { postQuestion } from '../util/api.js'
-import sel from '../util/querySelector.js'
-import { MESSEGE } from '../util/constant.js'
+import { postQuestion } from '../utils/api.js'
+import { sel } from '../utils/util.js'
+import { MESSEGE } from '../utils/constant.js'
 
 export default function NewQuestion ($modal, contentLoading) {
   this.$title = sel('#q-title', $modal)
@@ -17,7 +17,7 @@ export default function NewQuestion ($modal, contentLoading) {
 
   const handleQuestionModal = ({ target }) => {
     if (target.classList.contains('close-btn')) {
-      $modal.style.display = 'none'
+      clearFormFiled()
     }
   }
 
