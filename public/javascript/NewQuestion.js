@@ -2,7 +2,7 @@ import { postQuestion } from '../utils/api.js'
 import { sel } from '../utils/util.js'
 import { MESSEGE } from '../utils/constant.js'
 
-export default function NewQuestion ($modal, contentLoading) {
+export default function NewQuestion ($modal, render) {
   this.$title = sel('#q-title', $modal)
   this.$question = sel('#q-content', $modal)
 
@@ -11,11 +11,11 @@ export default function NewQuestion ($modal, contentLoading) {
   }
 
   const addDomEvent = () => {
-    $modal.addEventListener('click', handleQuestionModal)
+    $modal.addEventListener('click', closeQuestionModal)
     $modal.addEventListener('submit', handleNewQuestion)
   }
 
-  const handleQuestionModal = ({ target }) => {
+  const closeQuestionModal = ({ target }) => {
     if (target.classList.contains('close-btn')) {
       clearFormFiled()
     }
@@ -46,11 +46,16 @@ export default function NewQuestion ($modal, contentLoading) {
       alert(MESSEGE.IsNotFillTheContent)
       return
     }
-    const response = await postQuestion({ title, question })
-    if (response.ok) {
-      clearFormFiled()
-      contentLoading()
+    try {
+      const response = await postQuestion({ title, question })
+      if (response.ok) {
+        clearFormFiled()
+        render()
+      }
+    } catch (err) {
+      console.error('handleNewQuestion Error', err)
     }
+
   }
 
   init()
