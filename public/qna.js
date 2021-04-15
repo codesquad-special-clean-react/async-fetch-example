@@ -1,5 +1,6 @@
 import {loadAnswers} from "./components/answer.js";
 import {loadQuestions} from "./components/question.js";
+import {addEvents, preventSubmitEvent} from "./plain.js";
 
 export const URL = {
   questions: 'http://localhost:3001/questions',
@@ -58,4 +59,7 @@ export function getQnATemplate(data) {
 document.addEventListener('DOMContentLoaded', async () => { // 코드시작
   await loadQuestions();
   await loadAnswers();
+
+  preventSubmitEvent();
+  addEvents();
 });

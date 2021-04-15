@@ -1,6 +1,8 @@
 import {getQnATemplate} from "../qna.js";
 import {requestQuestions} from "../utils/api.js";
 
+const questionWrapper = document.querySelector('.qna-wrap');
+
 async function getQuestions() {
   try {
     return await requestQuestions();
@@ -9,10 +11,18 @@ async function getQuestions() {
   }
 }
 
-function renderQuestions(questions =[]) {
-  const questionWrapper = document.querySelector('.qna-wrap');
-  const questionHTMLTemplate = getQnATemplate(questions);
+export function renderQuestion(question) {
+  const questionHTMLTemplate = getQnATemplate([question]);
   questionWrapper.insertAdjacentHTML('beforeend', questionHTMLTemplate);
+}
+
+function renderQuestions(questions =[]) {
+  const questionLength = questions.length;
+
+  for (let i = 0; i < questionLength; i += 1) {
+    renderQuestion(questions[i]);
+  }
+
 }
 
 export function getQuestionNodeByQuestionId(questionId) {
