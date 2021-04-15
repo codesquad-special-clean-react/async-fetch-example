@@ -9,7 +9,6 @@ const initialState = {
 export default class QnAModel {
   _api = new Api({ timeout: 500 });
   _subscribers = [];
-  _utils = Utils;
   _URL = URL;
 
   state = initialState;
@@ -30,30 +29,41 @@ export default class QnAModel {
       .then((data) => this.setState({ ...this.state, data }));
   }
 
-  processFormToQuestion($form) {
-    const setIdentifiers = ({ title, question }) => {
-      const id = this._utils.generateNextQuestionId(this.state.data);
-      const userId = this.state.currentUser;
-      return { id, userId, title, question };
-    };
+  getNewQuestion({ title, question }) {
+    const id = this.generateNextQuestionId(this.state.data);
+    const userId = this.state.currentUser;
 
-    const pipeline = this._utils.pipe(
-      (arg) => new FormData(arg),
-      Object.fromEntries,
-      setIdentifiers
-    );
-
-    return pipeline($form);
+    return { id, userId, title, question };
   }
 
-  async addNewQuestion($form) {
-    const newQuestion = this.processFormToQuestion($form);
+  async addQuestion(questionData) {
+    const newQuestion = this.getNewQuestion(questionData);
 
     await this._api.post(this._URL.questions, newQuestion);
 
     this.setState((prev) => ({
-      ...prev,
       data: [...prev.data, newQuestion],
+    }));
+  }
+
+  async addAnswer(answerData) {
+    console.log(answerData);
+
+    const userId = this.state.currentUser;
+    const newComment = { userId, ...answerData };
+
+    await this._api.post(this._URL.answers, newComment);
+
+    await new Promise((res, rej) => setTimeout(() => res(), 2000));
+
+    this.setState((prev) => ({
+      ...prev,
+      data: prev.data.map((q) => {
+        if (q.id === newComment.questionId) {
+          q.matchedComments = [...q.matchedComments, newComment];
+        }
+        return q;
+      }),
     }));
   }
 
@@ -99,33 +109,9 @@ export default class QnAModel {
   publish() {
     this._subscribers.forEach((cb) => cb());
   }
-}
-
-/**
- * @namespace QnAUtils utility functions
- */
-const Utils = {
-  /**
-   * @deprecated
-   */
-  reduceArrayObject(array, key) {
-    return array.reduce((result, item) => {
-      const objectKey = item[key];
-      return {
-        ...result,
-        [objectKey]: result[objectKey] ? [...result[objectKey], item] : [item],
-      };
-    }, {});
-  },
-  /**
-   * @description simple implementaion of pipe function, receives multiple functions and execute consecutively
-   */
-  pipe(...functions) {
-    return (arg) => functions.reduce((result, func) => func(result), arg);
-  },
 
   generateNextQuestionId(array) {
     // better to be uuid or so
     return Math.max(...array.map((el) => el.id)) + 1;
-  },
-};
+  }
+}

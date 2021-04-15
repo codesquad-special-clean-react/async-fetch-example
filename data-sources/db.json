@@ -17,6 +17,24 @@
       "question": "제가 무엇을 모르는지 저도 잘 모르겠답니다...\n알려주세요",
       "userId": 2,
       "id": 3
+    },
+    {
+      "id": 4,
+      "userId": 1,
+      "title": "새로운 질문",
+      "question": "입니다"
+    },
+    {
+      "id": 5,
+      "userId": 1,
+      "title": "sdafdsafdsa",
+      "question": "fasdfasdf"
+    },
+    {
+      "id": 6,
+      "userId": 1,
+      "title": "이것이 코딩 테스트다",
+      "question": "fasdfasdf"
     }
   ],
   "answers": [
@@ -61,6 +79,53 @@
       "date": "2021-04-11",
       "userId": 1,
       "id": 14
+    },
+    {
+      "userId": 1,
+      "content": "새롱\r\n",
+      "questionId": 1,
+      "date": "2021-04-15",
+      "id": 15
+    },
+    {
+      "userId": 1,
+      "content": "wowwwww",
+      "questionId": 1,
+      "date": "2021-04-15",
+      "id": 16
+    },
+    {
+      "content": "great",
+      "questionId": 1,
+      "date": "2021-04-15",
+      "id": 17
+    },
+    {
+      "content": "??",
+      "questionId": 1,
+      "date": "2021-04-15",
+      "id": 18
+    },
+    {
+      "userId": 1,
+      "content": "gret\r\n",
+      "questionId": 1,
+      "date": "2021-04-15",
+      "id": 19
+    },
+    {
+      "userId": 1,
+      "content": "seriously?",
+      "questionId": 1,
+      "date": "2021-04-15",
+      "id": 20
+    },
+    {
+      "userId": 1,
+      "content": "???",
+      "questionId": 1,
+      "date": "2021-04-15",
+      "id": 21
     }
   ],
   "users": [
