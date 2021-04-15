@@ -29,7 +29,7 @@ export default class QnAModel {
   }
 
   getNewQuestion({ title, question }) {
-    const id = this.generateNextQuestionId(this.state.data);
+    const id = this.generateNextId(this.state.data);
     const userId = this.state.currentUser;
 
     return { id, userId, title, question };
@@ -41,33 +41,27 @@ export default class QnAModel {
     await this._api.post(this._URL.questions, newQuestion);
 
     this.setState((prev) => ({
+      ...prev,
       data: [...prev.data, newQuestion],
     }));
   }
 
   async addAnswer(answerData) {
+    const targetQuestion = this.state.data.find(
+      (question) => question.id === answerData.questionId
+    );
+
+    const id = this.generateNextId(targetQuestion.matchedComments || []);
     const userId = this.state.currentUser;
-    const newComment = { userId, ...answerData };
+    const newComment = { id, userId, ...answerData };
 
     await this._api.post(this._URL.answers, newComment);
 
-    await new Promise((res, rej) => {
-      console.warn('loading....');
-      setTimeout(() => res(console.log('done!')), 1200);
-    });
+    await this.wait(1200);
 
     this.setState((prev) => ({
       ...prev,
-      data: prev.data.map((question) =>
-        question.id !== newComment.questionId
-          ? question
-          : {
-              ...question,
-              matchedComments: question.matchedComments
-                ? [...question.matchedComments, newComment]
-                : [newComment],
-            }
-      ),
+      data: this.getAddedData(prev.data, newComment),
     }));
   }
 
@@ -87,10 +81,15 @@ export default class QnAModel {
 
   mapAnswersToQuestions({ answers, questions }) {
     return answers.reduce((data, answer) => {
-      const target = data.find((question) => question.id === answer.questionId);
-      target.matchedComments = target.matchedComments
-        ? [...target.matchedComments, answer]
+      const targetQuestion = data.find(
+        (question) => question.id === answer.questionId
+      );
+      if (!targetQuestion) return data;
+
+      targetQuestion.matchedComments = targetQuestion.matchedComments
+        ? [...targetQuestion.matchedComments, answer]
         : [answer];
+
       return data;
     }, questions);
   }
@@ -114,8 +113,28 @@ export default class QnAModel {
     this._subscribers.forEach((cb) => cb());
   };
 
-  generateNextQuestionId(array) {
+  generateNextId(array) {
     // better to be uuid or so
     return Math.max(...array.map((el) => el.id)) + 1;
+  }
+
+  wait(ms) {
+    return new Promise((res, rej) => {
+      console.log('loading....');
+      setTimeout(() => res(console.log('done!')), ms);
+    });
+  }
+
+  getAddedData(data, newComment) {
+    return data.map((question) =>
+      question.id !== newComment.questionId
+        ? question
+        : {
+            ...question,
+            matchedComments: question.matchedComments
+              ? [...question.matchedComments, newComment]
+              : [newComment],
+          }
+    );
   }
 }
