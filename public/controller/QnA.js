@@ -18,6 +18,7 @@ class QnA {
     e.preventDefault();
     const { target: $form } = e;
     const questionData = this._utils.processFormToObject($form);
+
     await this.model.addQuestion(questionData);
     this.dialogView.close(e);
   };
@@ -25,10 +26,10 @@ class QnA {
   onAnswerSubmit = async (e) => {
     e.preventDefault();
     const { target: $form } = e;
-
     const { 'answer-content': content } = this._utils.processFormToObject(
       $form
     );
+
     const questionId = +e.target.closest('li').getAttribute('_questionid');
     const date = new Date().toISOString().slice(0, 10);
 
