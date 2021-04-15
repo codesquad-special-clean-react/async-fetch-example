@@ -48,6 +48,19 @@ function getQnATemplate(data) {
 	}, ``);
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-	//코드시작
+// data fetching..
+const QnAListsFetch = () => {
+    return fetch(URL.questions).then((res) => res.json());
+}
+
+const AnswerFetch = () => {
+    return fetch(URL.answers).then((res) => res.json());
+}
+
+document.addEventListener('DOMContentLoaded', async () => {
+    //코드시작
+    document.querySelector('.qna-wrap').innerHTML = getQnATemplate(await QnAListsFetch());
+    document.querySelector('.answer').innerHTML = getAnswerTemplate(await AnswerFetch());
+
 });
+
