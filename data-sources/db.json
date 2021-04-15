@@ -35,6 +35,51 @@
       "userId": 1,
       "title": "이것이 코딩 테스트다",
       "question": "fasdfasdf"
+    },
+    {
+      "id": 7,
+      "userId": 1,
+      "title": "aja????",
+      "question": "fdsfdas"
+    },
+    {
+      "id": 8,
+      "title": "aja????",
+      "question": "fdsfdas"
+    },
+    {
+      "id": 9,
+      "title": "aja????",
+      "question": "fdsfdas"
+    },
+    {
+      "id": 10,
+      "userId": 1,
+      "title": "sadfsdaf",
+      "question": "sdafadsf"
+    },
+    {
+      "id": 11,
+      "userId": 1,
+      "title": "dfasfas",
+      "question": "sdafsdaf"
+    },
+    {
+      "id": 12,
+      "title": "되나",
+      "question": "sdafsdaf된된다리"
+    },
+    {
+      "id": 13,
+      "userId": 1,
+      "title": "된다?",
+      "question": "된다.!"
+    },
+    {
+      "id": 14,
+      "userId": 1,
+      "title": "MVC는 불편해서 FLUX는 편하드냐",
+      "question": "제법이요,,,?"
     }
   ],
   "answers": [
@@ -126,6 +171,26 @@
       "questionId": 1,
       "date": "2021-04-15",
       "id": 21
+    },
+    {
+      "userId": 1,
+      "content": "wow\r\n",
+      "questionId": 1,
+      "date": "2021-04-15",
+      "id": 22
+    },
+    {
+      "content": "화이팅이다 동욱아",
+      "questionId": 14,
+      "date": "2021-04-15",
+      "id": 23
+    },
+    {
+      "userId": 1,
+      "content": "화이팅이야 동욱아!\r\n",
+      "questionId": 14,
+      "date": "2021-04-15",
+      "id": 24
     }
   ],
   "users": [

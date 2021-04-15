@@ -4,12 +4,11 @@ class QnAView {
 
   constructor(initialState) {
     this.state = initialState;
-    this.render = this.render.bind(this);
   }
 
-  render(data) {
+  render = (data) => {
     this.$qnaList.innerHTML = this.getQnATemplate(data);
-  }
+  };
 
   setViewState(newState) {
     console.warn('view set!');

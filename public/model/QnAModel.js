@@ -14,7 +14,6 @@ export default class QnAModel {
   state = initialState;
 
   constructor() {
-    this.publish = this.publish.bind(this);
     this.init();
   }
 
@@ -47,23 +46,28 @@ export default class QnAModel {
   }
 
   async addAnswer(answerData) {
-    console.log(answerData);
-
     const userId = this.state.currentUser;
     const newComment = { userId, ...answerData };
 
     await this._api.post(this._URL.answers, newComment);
 
-    await new Promise((res, rej) => setTimeout(() => res(), 2000));
+    await new Promise((res, rej) => {
+      console.warn('loading....');
+      setTimeout(() => res(console.log('done!')), 1200);
+    });
 
     this.setState((prev) => ({
       ...prev,
-      data: prev.data.map((q) => {
-        if (q.id === newComment.questionId) {
-          q.matchedComments = [...q.matchedComments, newComment];
-        }
-        return q;
-      }),
+      data: prev.data.map((question) =>
+        question.id !== newComment.questionId
+          ? question
+          : {
+              ...question,
+              matchedComments: question.matchedComments
+                ? [...question.matchedComments, newComment]
+                : [newComment],
+            }
+      ),
     }));
   }
 
@@ -106,9 +110,9 @@ export default class QnAModel {
       ));
   };
 
-  publish() {
+  publish = () => {
     this._subscribers.forEach((cb) => cb());
-  }
+  };
 
   generateNextQuestionId(array) {
     // better to be uuid or so

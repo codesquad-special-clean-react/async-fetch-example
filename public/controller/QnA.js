@@ -24,7 +24,7 @@ class QnA {
     const { target: $form } = e;
     const questionData = this._utils.processFormToObject($form);
     await this.model.addQuestion(questionData);
-    this.dialogView.close();
+    this.dialogView.close(e);
   };
 
   onAnswerSubmit = async (e) => {
@@ -44,18 +44,22 @@ class QnA {
     // maybe by state mgmt?
   };
 
+  onClose = (e) => {
+    if (!e.target.matches('.close-btn')) return;
+    this.dialogView.close();
+  };
+
   addListeners() {
     const {
       view: { $newQuestionButton, $qnaList },
-      dialogView: { $newQuestionForm, $newQuestionCloseBtn },
+      dialogView: { $newQuestionForm, $newQuestionWrapper },
     } = this;
 
-    console.log($qnaList);
     $qnaList.addEventListener('submit', this.onAnswerSubmit);
     $newQuestionButton.addEventListener('click', this.dialogView.open);
 
     $newQuestionForm.addEventListener('submit', this.onQuestionSubmit);
-    // $newQuestionCloseBtn.addEventListener('click', this.close);
+    $newQuestionWrapper.addEventListener('click', this.onClose);
   }
 }
 
