@@ -1,9 +1,9 @@
 const getAnswerTemplate = (answers) => {
-  return answers.reduce((html, { content, userId, date }) => {
+  return answers.reduce((html, { id, content, userId, date }) => {
     return (
       html +
       `
-				<li class="answer-list" ">
+				<li class="answer-list" data-answer-id="${+id}">
           <p class="answer-content">${content}</p>
           <div class="answer-profile">
             <span class="answer-writer">${userId} | </span>
