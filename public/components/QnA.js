@@ -1,50 +1,25 @@
-import { getRequest, postQuestion } from '../util/api.js'
+import { getRequest } from '../util/api.js'
 import { getQnATemplate } from '../util/template.js'
 import { URL } from '../util/constant.js'
-import $ from '../util/querySelector.js'
+import sel from '../util/querySelector.js'
+import NewQuestion from './NewQuestion.js'
 
-export default function QnA(){
-
-
-  this.$newQnABtn = $('.new-question-btn')
-  this.$newQnAModal = $('.new-question-wrap')
+export default function QnA () {
+  this.$newQnABtn = sel('.new-question-btn')
+  this.$newQnAModal = sel('.new-question-wrap')
 
   const init = () => {
-    console.log(this.state)
-    contentLoading();
-    addDomEvent();
+    contentLoading()
+    addDomEvent()
+    new NewQuestion(sel('.new-question-wrap'), contentLoading)
   }
 
   const addDomEvent = () => {
     this.$newQnABtn.addEventListener('click', openModal)
-    this.$newQnAModal.addEventListener('click', handleQuestionModal);
-    this.$newQnAModal.addEventListener('submit', handleNewQuestion);
-
   }
 
-  const openModal = ({target}) => {
+  const openModal = () => {
     this.$newQnAModal.style.display = 'block'
-  }
-
-  const handleQuestionModal = ({target}) => {
-    if (target.classList.contains('close-btn')) {
-      this.$newQnAModal.style.display = 'none';
-    }
-  }
-
-  const handleNewQuestion = async (e) => {
-    e.preventDefault();
-    const title = this.$newQnAModal.querySelector('#q-title').value;
-    const question = this.$newQnAModal.querySelector('#q-content').value;
-    const data = {
-      title,
-      question,
-    }
-    await postQuestion(data);
-    this.$newQnAModal.querySelector('#q-title').value = '';
-    this.$newQnAModal.querySelector('#q-content').value = '';
-    this.$newQnAModal.style.display = 'none';
-    contentLoading();
   }
 
   const contentLoading = () => {
@@ -68,7 +43,7 @@ export default function QnA(){
   }
 
   const renderQna = ({ answers, questions }) => {
-    const qnaWrap = $('.qna-wrap')
+    const qnaWrap = sel('.qna-wrap')
     const answersMap = getAnswersMap(answers)
     const questionsWithComments = questions.map((question) => {
       if (answersMap[question.id]) {
