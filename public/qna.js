@@ -50,26 +50,33 @@ function getQnATemplate(data) {
   }, ``);
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-  //코드시작
-  const requests = Object.keys(URL)
+const getRequests = (URL) => {
+  return Object.keys(URL)
     .sort()
     .map((key) => fetch(URL[key]));
+};
+
+const renderQna = ({ answers, questions }) => {
+  const qnaWrap = document.querySelector(".qna-wrap");
+  const answersMap = getAnswersMap(answers);
+  const questionsWithComments = questions.map((question) => {
+    if (answersMap[question.id]) {
+      question.matchedComments = answersMap[question.id];
+    }
+    return question;
+  });
+  qnaWrap.innerHTML = getQnATemplate(questionsWithComments);
+};
+
+document.addEventListener("DOMContentLoaded", () => {
+  //코드시작
+  const requests = getRequests(URL);
   Promise.all(requests)
     .then(async ([answers, questions]) => [
       await answers.json(),
       await questions.json(),
     ])
     .then(([answers, questions]) => {
-      const qnaWrap = document.querySelector(".qna-wrap");
-      const answersMap = getAnswersMap(answers);
-      qnaWrap.innerHTML = getQnATemplate(
-        questions.map((question) => {
-          if (answersMap[question.id]) {
-            question.matchedComments = answersMap[question.id];
-          }
-          return question;
-        })
-      );
+      renderQna({ answers, questions });
     });
 });
