@@ -27,3 +27,21 @@ export const renderQna = ({ answers, questions }) => {
   });
   qnaWrap.innerHTML = getQnATemplate(questionsWithComments);
 };
+
+const addZero = (number) => {
+  const stringifiedNumber = number.toString();
+  return stringifiedNumber.length > 1
+    ? stringifiedNumber
+    : `0${stringifiedNumber}`;
+};
+
+export const getDate = () => {
+  const now = new Date();
+  return [now.getFullYear(), now.getMonth() + 1, now.getDate()].reduce(
+    (accumulator, unit, index) => {
+      accumulator += `${index === 0 ? "" : "-"}${addZero(unit)}`;
+      return accumulator;
+    },
+    ""
+  );
+};

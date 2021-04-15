@@ -63,60 +63,11 @@
       "id": 12
     },
     {
-      "questionId": 2,
-      "content": "werwer",
-      "date": "2021-04-10",
-      "userId": 1,
+      "questionId": "1",
+      "userId": 3,
+      "content": "zzzz",
+      "date": "2021-04-15",
       "id": 13
-    },
-    {
-      "questionId": 1,
-      "content": "werw",
-      "date": "2021-04-11",
-      "userId": 1,
-      "id": 14
-    },
-    {
-      "questionId": 1,
-      "content": "werwerw",
-      "date": "2021-04-11",
-      "userId": 1,
-      "id": 15
-    },
-    {
-      "questionId": 1,
-      "content": "werwerwe",
-      "date": "2021-04-11",
-      "userId": 1,
-      "id": 16
-    },
-    {
-      "questionId": 1,
-      "content": "wewerwr",
-      "date": "2021-04-11",
-      "userId": 1,
-      "id": 17
-    },
-    {
-      "questionId": 1,
-      "content": "wewerwrwrewwer",
-      "date": "2021-04-11",
-      "userId": 1,
-      "id": 18
-    },
-    {
-      "questionId": 1,
-      "content": "WERWERWERWER",
-      "date": "2021-04-11",
-      "userId": 1,
-      "id": 19
-    },
-    {
-      "questionId": 1,
-      "content": "wewer",
-      "date": "2021-04-11",
-      "userId": 1,
-      "id": 20
     }
   ],
   "users": [
