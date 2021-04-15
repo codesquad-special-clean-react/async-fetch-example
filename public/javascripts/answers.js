@@ -1,11 +1,9 @@
 export const getAnswersMap = (answers) => {
-  const answersMap = {};
-  answers.forEach((answer) => {
-    const isExists = !!answersMap[answer.questionId];
-    if (!isExists) {
-      answersMap[answer.questionId] = [];
+  return answers.reduce((accumulator, answer) => {
+    if (!accumulator[answer.questionId]) {
+      accumulator[answer.questionId] = [];
     }
-    answersMap[answer.questionId].push(answer);
-  });
-  return answersMap;
+    accumulator[answer.questionId].push(answer);
+    return accumulator;
+  }, {});
 };
