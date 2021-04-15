@@ -1,5 +1,6 @@
 import { postQuestion } from '../util/api.js'
 import sel from '../util/querySelector.js'
+import { MESSEGE } from '../util/constant.js'
 
 export default function NewQuestion ($modal, contentLoading) {
   this.$title = sel('#q-title', $modal)
@@ -22,9 +23,11 @@ export default function NewQuestion ($modal, contentLoading) {
 
   const getFormData = () => {
     const { $title, $question } = this
+    const title = $title.value
+    const question = $question.value
     return {
-      title: $title.value,
-      question: $question.value,
+      title,
+      question,
     }
   }
 
@@ -37,8 +40,13 @@ export default function NewQuestion ($modal, contentLoading) {
 
   const handleNewQuestion = async (e) => {
     e.preventDefault()
-    const data = getFormData()
-    const response = await postQuestion(data)
+    const { title, question } = getFormData()
+    const isNotFillTheContent = title.length === 0 || question.length === 0
+    if (isNotFillTheContent) {
+      alert(MESSEGE.IsNotFillTheContent)
+      return
+    }
+    const response = await postQuestion({ title, question })
     if (response.ok) {
       clearFormFiled()
       contentLoading()
