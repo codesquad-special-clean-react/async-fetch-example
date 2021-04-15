@@ -17,24 +17,6 @@
       "question": "제가 무엇을 모르는지 저도 잘 모르겠답니다...\n알려주세요",
       "userId": 2,
       "id": 3
-    },
-    {
-      "title": "werwerwer",
-      "question": "2234234234",
-      "userId": 2,
-      "id": 4
-    },
-    {
-      "title": "234234234",
-      "question": "234234234234234234",
-      "userId": 2,
-      "id": 5
-    },
-    {
-      "title": "2323",
-      "question": "SDSFSDFSFSFSDF",
-      "userId": 2,
-      "id": 6
     }
   ],
   "answers": [
@@ -67,20 +49,6 @@
       "date": "2021-04-22"
     },
     {
-      "questionId": 1,
-      "content": "werwerwerwer",
-      "date": "2021-04-10",
-      "userId": 1,
-      "id": 11
-    },
-    {
-      "questionId": 1,
-      "content": "werwerwewere",
-      "date": "2021-04-10",
-      "userId": 1,
-      "id": 12
-    },
-    {
       "questionId": 2,
       "content": "werwer",
       "date": "2021-04-10",
@@ -93,48 +61,6 @@
       "date": "2021-04-11",
       "userId": 1,
       "id": 14
-    },
-    {
-      "questionId": 1,
-      "content": "werwerw",
-      "date": "2021-04-11",
-      "userId": 1,
-      "id": 15
-    },
-    {
-      "questionId": 1,
-      "content": "werwerwe",
-      "date": "2021-04-11",
-      "userId": 1,
-      "id": 16
-    },
-    {
-      "questionId": 1,
-      "content": "wewerwr",
-      "date": "2021-04-11",
-      "userId": 1,
-      "id": 17
-    },
-    {
-      "questionId": 1,
-      "content": "wewerwrwrewwer",
-      "date": "2021-04-11",
-      "userId": 1,
-      "id": 18
-    },
-    {
-      "questionId": 1,
-      "content": "WERWERWERWER",
-      "date": "2021-04-11",
-      "userId": 1,
-      "id": 19
-    },
-    {
-      "questionId": 1,
-      "content": "wewer",
-      "date": "2021-04-11",
-      "userId": 1,
-      "id": 20
     }
   ],
   "users": [
