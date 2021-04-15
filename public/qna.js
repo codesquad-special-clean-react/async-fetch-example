@@ -1,13 +1,12 @@
-const URL = {
-	questions: 'http://localhost:3001/questions',
-	answers: 'http://localhost:3001/answers',
-};
+import { getRequest } from './util/api.js'
+import { URL } from './util/constant.js'
+import $ from './util/querySelector.js'
 
-function getAnswerTemplate(answers) {
-	return answers.reduce((html, { content, userId, date }) => {
-		return (
-			html +
-			`
+function getAnswerTemplate (answers) {
+  return answers.reduce((html, { content, userId, date }) => {
+    return (
+      html +
+      `
         <li class="answer-list" ">
             <p class="answer-content">${content}</p>
             <div class="answer-profile">
@@ -15,21 +14,21 @@ function getAnswerTemplate(answers) {
                 <span class="answer-date">${date}</span>
             </div>
         </li>`
-		);
-	}, ``);
+    )
+  }, ``)
 }
 
-function getLoadingAnswerTpl() {
-	return `<li class="answer-list loading" ">
+function getLoadingAnswerTpl () {
+  return `<li class="answer-list loading" ">
         Loading.....
-     </li>`;
+     </li>`
 }
 
-function getQnATemplate(data) {
-	return data.reduce((html, { title, question, id, matchedComments = [] }) => {
-		return (
-			html +
-			` <li class="qna" _questionId=${+id}>
+function getQnATemplate (data) {
+  return data.reduce((html, { title, question, id, matchedComments = [] }) => {
+    return (
+      html +
+      ` <li class="qna" _questionId=${+id}>
         <div class="qna-title">
             <h2>${title}</h2>
         </div>
@@ -44,26 +43,42 @@ function getQnATemplate(data) {
             <button class="answer-submit">등록</button>
         </div>
     </li>`
-		);
-	}, ``);
+    )
+  }, ``)
 }
 
-const BASE_URL = 'http://localhost:3001/'
-
 const contentLoading = () => {
-
-  let paths = ['questions', 'answers'];
-
-  const requests = paths.map(path =>fetch(`${BASE_URL + path}`));
-
+  const requests = getRequest(URL)
   Promise.all(requests)
     .then(response => Promise.all(response.map((r, num) => r.json())))
-    .then((result)=> {
-      console.log(result )
+    .then((result) => {
+      const [questions, answers] = result
+      renderQna({ questions, answers })
     })
+}
+export const getAnswersMap = (answers) => {
+  return answers.reduce((acc, answer) => {
+    if (!acc[answer.questionId]) {
+      acc[answer.questionId] = []
+    }
+    acc[answer.questionId].push(answer)
+    return acc
+  }, {})
+}
+
+export const renderQna = ({ answers, questions }) => {
+  const qnaWrap = $('.qna-wrap')
+  const answersMap = getAnswersMap(answers)
+  const questionsWithComments = questions.map((question) => {
+    if (answersMap[question.id]) {
+      question.matchedComments = answersMap[question.id]
+    }
+    return question
+  })
+  qnaWrap.innerHTML = getQnATemplate(questionsWithComments)
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-	//코드시작
+  //코드시작
   contentLoading()
-});
+})
