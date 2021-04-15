@@ -1,3 +1,5 @@
+import { getAnswersMap } from "./javascripts/answers.js";
+
 const URL = {
   questions: "http://localhost:3001/questions",
   answers: "http://localhost:3001/answers",
@@ -48,6 +50,26 @@ function getQnATemplate(data) {
   }, ``);
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-	//코드시작
+document.addEventListener("DOMContentLoaded", () => {
+  //코드시작
+  const requests = Object.keys(URL)
+    .sort()
+    .map((key) => fetch(URL[key]));
+  Promise.all(requests)
+    .then(async ([answers, questions]) => [
+      await answers.json(),
+      await questions.json(),
+    ])
+    .then(([answers, questions]) => {
+      const qnaWrap = document.querySelector(".qna-wrap");
+      const answersMap = getAnswersMap(answers);
+      qnaWrap.innerHTML = getQnATemplate(
+        questions.map((question) => {
+          if (answersMap[question.id]) {
+            question.matchedComments = answersMap[question.id];
+          }
+          return question;
+        })
+      );
+    });
 });
