@@ -1,16 +1,19 @@
 {
   "name": "qna",
   "version": "1.0.0",
-  "description": "",
+  "description": "my first codesquad programme",
   "main": "qna.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon ./server/app.js"
+    "start": "npm run dev & npm run db",
+    "dev": "nodemon ./server/app.js",
+    "db": "json-server --watch data-sources/db.json -p 3001"
   },
-  "author": "",
+  "author": "domuk-k",
   "license": "ISC",
   "devDependencies": {
-    "express": "^4.16.3"
+    "express": "^4.17.1",
+    "json-server": "^0.16.3",
+    "nodemon": "^2.0.7"
   },
   "dependencies": {}
 }
