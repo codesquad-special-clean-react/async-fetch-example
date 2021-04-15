@@ -4,4 +4,8 @@ const getLoadingAnswerTpl = () => {
   </li>`;
 };
 
-export default getLoadingAnswerTpl;
+const addLoader = (el) => {
+  el.innerHTML += getLoadingAnswerTpl();
+};
+
+export default addLoader;

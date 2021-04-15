@@ -1,7 +1,7 @@
 import api from "./utils/api.js";
 import getQnATemplate from "./components/Qna.js";
 import toggleModal from "./components/Modal.js";
-import toggleLoader from "./components/Loader.js";
+import addLoader from "./components/Loader.js";
 
 const qnaWrap = document.querySelector(".qna-wrap");
 const newQuestionBtn = document.querySelector(".new-question-btn");
