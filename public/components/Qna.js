@@ -13,9 +13,9 @@ const getQnATemplate = (data) => {
           </div>
           <ul class="answer">${getAnswerTemplate(matchedComments)}</ul>
           <div class="answer-form">
-            <form method="POST">
+            <div>
               <textarea name="answer-content" class="answer-content-textarea" cols="30" rows="2" placeholder="새로운답변.."></textarea>
-            </form>
+            </div>
             <button class="answer-submit">등록</button>
           </div>
         </li>`
