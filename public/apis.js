@@ -3,9 +3,19 @@ const URL = {
     answers: 'http://localhost:3001/answers',
 };
 
-export default {
-    async getQuestions() {
-        const response = await fetch(URL.questions);
+const defaultApis = {
+    async get(url) {
+        const response = await fetch(url);
         return await response.json();
     },
+}
+
+export default {
+    async getQuestions() {
+        return await defaultApis.get(URL.questions);
+    },
+
+    async getAnswers() {
+        return await defaultApis.get(URL.answers);
+    }
 }

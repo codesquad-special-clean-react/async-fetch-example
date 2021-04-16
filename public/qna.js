@@ -48,5 +48,12 @@ function getQnATemplate(data) {
 document.addEventListener('DOMContentLoaded', async () => {
 	const $qnaWrap = document.querySelector('.qna-wrap');
 	const questions = await apis.getQuestions();
-	$qnaWrap.innerHTML = getQnATemplate(questions);
+	const answers = await apis.getAnswers();
+
+	$qnaWrap.innerHTML = getQnATemplate(questions.map(question => {
+		return {
+			...question,
+			matchedComments: answers.filter(({questionId}) => questionId === question.id),
+		}
+	}));
 });
