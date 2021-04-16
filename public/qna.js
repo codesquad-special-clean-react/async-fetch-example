@@ -1,7 +1,4 @@
-const URL = {
-	questions: 'http://localhost:3001/questions',
-	answers: 'http://localhost:3001/answers',
-};
+import apis from './apis.js';
 
 function getAnswerTemplate(answers) {
 	return answers.reduce((html, { content, userId, date }) => {
@@ -48,6 +45,8 @@ function getQnATemplate(data) {
 	}, ``);
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-	//코드시작
+document.addEventListener('DOMContentLoaded', async () => {
+	const $qnaWrap = document.querySelector('.qna-wrap');
+	const questions = await apis.getQuestions();
+	$qnaWrap.innerHTML = getQnATemplate(questions);
 });
