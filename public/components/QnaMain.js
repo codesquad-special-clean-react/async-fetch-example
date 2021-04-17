@@ -2,6 +2,7 @@ import apis from '../apis.js';
 import {$} from '../utils/selector.js';
 import QnaMainNewQuestionModal from './QnaMainNewQuestionModal.js';
 import QnaMainQuestions from './QnaMainQuestions.js';
+import {getNowDateText} from '../utils/date.js';
 
 export default function QnaMain({$el}) {
 
@@ -34,6 +35,7 @@ export default function QnaMain({$el}) {
                 props: {
                     questions: this.state.questions,
                 },
+                addNewAnswer,
             }),
 
             newQuestionModal: new QnaMainNewQuestionModal({
@@ -82,8 +84,23 @@ export default function QnaMain({$el}) {
     const addNewQuestion = async ({title, question}) => {
         //todo validate new question(title, question)
 
-        await apis.createQuestion({title, question});
+        const userId = 2; //현재는 userId 고정
+        await apis.createQuestion({userId, title, question});
         openOrCloseNewQuestionModal(false);
+
+        await fetchQuestions();
+    };
+
+    /**
+     * 새로운 답변 추가
+     * @param questionId
+     * @param answerContent
+     */
+    const addNewAnswer = async ({questionId, answerContent}) => {
+        //todo validate new answer(answerContent)
+
+        const userId = 2; //현재는 userId 고정
+        await apis.createAnswer({userId, questionId, content: answerContent, date: getNowDateText()});
 
         await fetchQuestions();
     };

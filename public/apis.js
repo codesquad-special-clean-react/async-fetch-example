@@ -9,7 +9,7 @@ async function get(url) {
 }
 
 async function post(url, data) {
-    const response = await fetch(URL.questions, {
+    const response = await fetch(url, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -24,11 +24,16 @@ export default {
         return await get(URL.questions);
     },
 
-    async createQuestion({userId = 2, title, question}) {
-        await post(URL.questions, {userId, title, question});
+    async createQuestion({userId, title, question}) {
+        return await post(URL.questions, {userId, title, question});
     },
 
     async getAnswers() {
         return await get(URL.answers);
     },
+
+    async createAnswer({userId, questionId, content, date}) {
+        return await post(URL.answers, {userId, questionId, content, date});
+    },
 };
+
