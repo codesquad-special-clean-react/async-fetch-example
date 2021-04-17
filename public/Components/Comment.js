@@ -16,8 +16,8 @@ export default function Comment ($qnaList, render) {
   const handleNewComment = async (e) => {
     const { target, currentTarget } = e
     if (isValidAction(target)) return
-    const $content = selector('.answer-content-textarea', target.closest('.answer-form'))
 
+    const $content = selector('.answer-content-textarea', target.closest('.answer-form'))
     const questionId = currentTarget.getAttribute('_questionId')
     const content = $content.value
     $content.value = ''

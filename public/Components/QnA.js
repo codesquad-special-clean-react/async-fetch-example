@@ -17,7 +17,6 @@ export default function QnA () {
   }
 
   const addDomEvent = () => {
-    this.$newQnABtn = selector('.new-question-btn')
     new Question(selector('.new-question-wrap'), render)
     new Comment(allSelector('.qna'), render)
   }
