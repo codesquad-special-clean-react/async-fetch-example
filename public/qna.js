@@ -105,7 +105,6 @@ document.addEventListener('DOMContentLoaded', () => {
     //코드시작
 
     dataRender().then((res) => {
-        // 왜 res[0]은 잘 들어가지는데 res[1]은 innerHTML null???
         document.querySelector('.qna-wrap').innerHTML = getQnATemplate(res[0]);
         document.querySelector('.answer').innerHTML = getAnswerTemplate(res[1]);
     })
