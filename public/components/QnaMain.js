@@ -60,13 +60,13 @@ export default function QnaMain({$el}) {
     const render = async () => {
         this.$el.innerHTML = `
             <div class="main-wrap">
-                <button class="new-question-btn">새로운질문</button>
+                <button class="new-question-btn" data-ref="new-question-open-btn">새로운질문</button>
                 <ul class="qna-wrap">
                 </ul>
                 
-                <div class="new-question-wrap">
-                    <div class="close-btn">X</div>
-                    <form id="new-q-form" action="#" method="post">
+                <div class="new-question-wrap" data-ref="new-question-modal">
+                    <div class="close-btn" data-ref="new-question-close-btn">X</div>
+                    <form id="new-q-form" action="#" method="post" data-ref="new-question-form">
                         <div>
                             <label for="q-title">제목</label>
                             <input type="text" name="title" id="q-title">
@@ -82,6 +82,15 @@ export default function QnaMain({$el}) {
         `;
 
         $('.qna-wrap', this.$el).innerHTML = getQnATemplate(this.state.questions);
+        $('[data-ref="new-question-open-btn"]', this.$el)
+            .addEventListener('click', () => toggleNewQuestionModal(true));
+        $('[data-ref="new-question-close-btn"]', this.$el)
+            .addEventListener('click', () => toggleNewQuestionModal(false));
+        $('[data-ref="new-question-form"]', this.$el)
+            .addEventListener('submit', async (event) => {
+                event.preventDefault();
+                await addNewQuestion(Object.fromEntries(new FormData(event.target)));
+            });
     };
 
     const fetchQuestions = async () => {
@@ -98,6 +107,15 @@ export default function QnaMain({$el}) {
                 };
             }),
         });
+    };
+
+    const toggleNewQuestionModal = (isOpen = true) => {
+        $('[data-ref="new-question-modal"]', this.$el).style.display = isOpen ? 'block' : 'none';
+    };
+
+    const addNewQuestion = async ({title, question}) => {
+        await apis.createQuestion({title, question});
+        await fetchQuestions();
     };
 
     const init = () => {
