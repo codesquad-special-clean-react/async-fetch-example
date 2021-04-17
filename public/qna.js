@@ -48,19 +48,69 @@ function getQnATemplate(data) {
 	}, ``);
 }
 
-// data fetching..
+// 모달창질문 값 관리
+const newQuestionContent = {
+    title: '',
+    content: '',
+}
+
+/** data fetching **/  
+
 const QnAListsFetch = () => {
-    return fetch(URL.questions).then((res) => res.json());
+    return fetch(URL.questions).then((res) => res.json())
+        .catch((error) => new Error(error));
 }
 
 const AnswerFetch = () => {
-    return fetch(URL.answers).then((res) => res.json());
+    return fetch(URL.answers).then((res) => res.json())
+        .catch((error) => new Error(error));
 }
+
+const dataRender = () => {
+    return Promise.all([QnAListsFetch(), AnswerFetch()])
+        .catch((error) => new Error(error));
+}
+
+const modalFunction = () => {
+    const newQuestion = document.getElementsByClassName('main-wrap')[0];
+    newQuestion.addEventListener('click', (e) => {
+        const dataset = e.target.dataset.action;
+
+        if(dataset === undefined) return;
+
+        if(dataset === 'new-question-addBtn') {
+            document.getElementsByClassName('new-question-wrap')[0].style.display = 'block';
+        }
+
+        if(dataset === 'new-question-closeBtn') {
+            document.getElementsByClassName('new-question-wrap')[0].style.display = 'none';
+        }
+
+        if(dataset === 'new-question-submit') {
+            e.preventDefault();
+
+            let _newQuestionContent;
+            _newQuestionContent = {
+                ...newQuestion,
+                title: document.getElementById('q-title').value,
+                content: document.getElementById('q-content').value,
+            }
+            newQuestionPost(_newQuestionContent);
+        }
+    })
+}
+
 
 document.addEventListener('DOMContentLoaded', async () => {
     //코드시작
-    document.querySelector('.qna-wrap').innerHTML = getQnATemplate(await QnAListsFetch());
-    document.querySelector('.answer').innerHTML = getAnswerTemplate(await AnswerFetch());
 
+    dataRender().then((res) => {
+        // 왜 res[0]은 잘 들어가지는데 res[1]은 innerHTML null???
+        document.querySelector('.qna-wrap').innerHTML = getQnATemplate(res[0]);
+        document.querySelector('.answer').innerHTML = getAnswerTemplate(res[1]);
+    })
+
+    modalFunction();
 });
+
 
