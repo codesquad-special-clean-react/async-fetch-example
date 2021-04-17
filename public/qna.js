@@ -101,7 +101,7 @@ const modalFunction = () => {
 }
 
 
-document.addEventListener('DOMContentLoaded', async () => {
+document.addEventListener('DOMContentLoaded', () => {
     //코드시작
 
     dataRender().then((res) => {
