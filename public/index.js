@@ -8,18 +8,14 @@ const newQuestionBtn = document.querySelector(".new-question-btn");
 const newQuestionWrap = document.querySelector(".new-question-wrap");
 const newQuestionSubmitBtn = document.querySelector(".new-question-submit-btn");
 const closeBtn = document.querySelector(".close-btn");
-const questionTitle = document.querySelector("#q-title");
-const questionContent = document.querySelector("#q-content");
 
 const setQnATemplate = async () => {
   const questions = await api.getQuestionsAndAnswers();
-  qnaWrap.innerHTML = await getQnATemplate(questions);
+  qnaWrap.innerHTML = getQnATemplate(questions);
 };
 
 const init = () => {
-  setTimeout(() => {
-    setQnATemplate();
-  }, 200);
+  setQnATemplate();
 };
 
 const findAnswerData = (el) => {
@@ -42,19 +38,23 @@ const postAnswerData = async (e) => {
   if (!flag || !ulFlag) {
     return;
   }
-  const data = await findAnswerData(el);
+  const data = findAnswerData(el);
   await api.postAnswer(data);
   await init();
 };
 
 const postQuestionData = async () => {
+  const questionTitle = document.querySelector("#q-title");
+  const questionContent = document.querySelector("#q-content");
   const data = {
     title: questionTitle.value,
     question: questionContent.value,
     userId: 2,
   };
   await api.postQuestion(data);
-  await init();
+  await setQnATemplate();
+  questionTitle.value = "";
+  questionContent.value = "";
 };
 
 newQuestionBtn.addEventListener("click", () => toggleModal(newQuestionWrap));
@@ -63,9 +63,9 @@ closeBtn.addEventListener("click", () => toggleModal(newQuestionWrap));
 
 qnaWrap.addEventListener("click", (e) => postAnswerData(e));
 
-newQuestionSubmitBtn.addEventListener("click", () => {
+newQuestionSubmitBtn.addEventListener("click", async () => {
+  await postQuestionData();
   toggleModal(newQuestionWrap);
-  postQuestionData();
 });
 
 document.addEventListener("DOMContentLoaded", () => {
