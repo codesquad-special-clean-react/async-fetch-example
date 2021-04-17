@@ -5,13 +5,13 @@ export const modalInputContents = {
   content: "",
 };
 
-export function modalToggle(isModalState) {
+export const modalToggle = (isModalState) => {
   isModalState
     ? (document.querySelector(".new-question-wrap").style.display = "block")
     : (document.querySelector(".new-question-wrap").style.display = "none");
-}
+};
 
-export function Modal() {
+export const Modal = () => {
   const modalForm = document.getElementById("new-q-form");
   const modalInputs = modalForm.querySelectorAll(".input");
   const submitBtn = document.getElementById("q-submit");
@@ -37,4 +37,4 @@ export function Modal() {
       modalToggle(false);
     });
   });
-}
+};
