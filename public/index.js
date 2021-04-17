@@ -9,6 +9,14 @@ const newQuestionWrap = document.querySelector(".new-question-wrap");
 const newQuestionSubmitBtn = document.querySelector(".new-question-submit-btn");
 const closeBtn = document.querySelector(".close-btn");
 
+const delay = (delayTime) => {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve("Success");
+    }, delayTime);
+  });
+};
+
 const setQnATemplate = async () => {
   const questions = await api.getQuestionsAndAnswers();
   qnaWrap.innerHTML = getQnATemplate(questions);
@@ -21,8 +29,10 @@ const init = () => {
 const findAnswerData = (el) => {
   const questionId = el.closest("li").dataset.questionId;
   const answerForm = el.closest(".answer-form");
-  const content = answerForm.querySelector(".answer-content-textarea").value;
   const date = new Date().toISOString().slice(0, 10);
+  const contentEl = answerForm.querySelector(".answer-content-textarea");
+  const content = contentEl.value;
+  contentEl.value = "";
   return {
     questionId: +questionId,
     content: content,
@@ -39,8 +49,14 @@ const postAnswerData = async (e) => {
     return;
   }
   const data = findAnswerData(el);
-  await api.postAnswer(data);
-  await init();
+  addLoader(ulFlag.querySelector(".answer"));
+  delay(3000)
+    .then(() => {
+      api.postAnswer(data);
+    })
+    .then(() => {
+      setQnATemplate();
+    });
 };
 
 const postQuestionData = async () => {
