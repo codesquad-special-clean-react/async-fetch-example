@@ -6,7 +6,6 @@ const getLoadingAnswerTpl = () => {
 
 const addLoader = (el) => {
   el.innerHTML += getLoadingAnswerTpl();
-  console.log(el);
 };
 
 export default addLoader;
