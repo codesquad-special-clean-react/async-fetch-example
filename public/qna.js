@@ -65,13 +65,36 @@ document.addEventListener("DOMContentLoaded", () => {
       const data = await fetch(URL.answers);
       const answers = await data.json();
 
-      console.log(answers);
       return answers;
     } catch (err) {
       console.log(err);
     }
   }
 
-  getQuestionData();
-  getAnswersData();
+  function filterAnswers(answers, id) {
+    return answers.filter((asnwer) => asnwer.questionId === id);
+  }
+
+  Promise.all([getQuestionData(), getAnswersData()])
+    .then((res) => {
+      const data = {
+        questions: [...res[0]],
+        answers: [...res[1]],
+      };
+      const { questions, answers } = data;
+
+      const combineQna = questions.map((question) => {
+        const matchedAnswer = filterAnswers(answers, question.id);
+
+        return {
+          ...question,
+          matchedComments: matchedAnswer,
+        };
+      });
+
+      document.querySelector(".qna-wrap").innerHTML = getQnATemplate(
+        combineQna
+      );
+    })
+    .catch((err) => console.log(err));
 });
