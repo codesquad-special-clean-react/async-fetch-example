@@ -11,3 +11,5 @@ const renderQnA = async () => {
 document.addEventListener("DOMContentLoaded", () => {
   renderQnA();
 });
+
+export default renderQnA;

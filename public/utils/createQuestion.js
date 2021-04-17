@@ -1,3 +1,6 @@
+import renderQnA from "../qna.js";
+import { postQuestions } from "../service/api.js";
+
 const $newQuestionModalOpenBtn = document.querySelector(".new-question-btn");
 const $newQuestionModal = document.querySelector(".new-question-wrap");
 const $newQuestionModalCloseBtn = document.querySelector(
@@ -6,17 +9,17 @@ const $newQuestionModalCloseBtn = document.querySelector(
 const $titleInputText = document.querySelector("#q-title");
 const $contentTextArea = document.querySelector("#q-content");
 const $newQuestionForm = document.querySelector("#new-q-form");
-// const $newQuestionBtn = document.querySelector(".new-question-wrap > button");
 
 let newQuestion = {
   title: "",
   question: ""
 };
 
-// console.log(generateId());
-const createQuestion = () => {
+const createQuestion = async () => {
   newQuestion = { ...newQuestion, userId: 2 };
-  console.log(newQuestion);
+
+  await postQuestions(newQuestion);
+  await renderQnA();
 };
 
 const openNewQuestionModal = () => {
@@ -31,10 +34,7 @@ $newQuestionModalOpenBtn.onclick = () => openNewQuestionModal();
 $newQuestionModalCloseBtn.onclick = () => closeNewQuestionModal();
 
 const setNewQuestion = (name, value) => {
-  //   console.log(name, value);
   newQuestion = { ...newQuestion, [name]: value };
-
-  //   console.log(newQuestion);
 };
 
 $titleInputText.onkeyup = ({ target }) => {

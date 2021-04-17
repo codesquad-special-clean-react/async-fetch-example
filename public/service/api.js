@@ -16,3 +16,15 @@ export async function getAnswers() {
 
   return data;
 }
+
+export async function postQuestions(data) {
+  const response = await fetch(`${URL.questions}`, {
+    method: "POST",
+    body: JSON.stringify(data),
+    headers: {
+      "Content-Type": "application/json"
+    }
+  });
+
+  return response;
+}
