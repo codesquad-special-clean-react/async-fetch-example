@@ -1,12 +1,11 @@
 import { getRequest } from '../utils/api.js'
 import { getQnATemplate } from '../utils/template.js'
-import { MODAL_STATUS, URL } from '../utils/constant.js'
-import { sel, selAll } from '../utils/util.js'
-import NewQuestion from './NewQuestion.js'
-import NewComment from './NewComment.js'
+import { URL } from '../utils/constant.js'
+import { selector, allSelector } from '../utils/util.js'
+import Question from './Question.js'
+import Comment from './Comment.js'
 
 export default function QnA () {
-
   const init = async () => {
     await render()
   }
@@ -18,15 +17,9 @@ export default function QnA () {
   }
 
   const addDomEvent = () => {
-    this.$newQnABtn = sel('.new-question-btn')
-    this.$newQnAModal = sel('.new-question-wrap')
-    this.$newQnABtn.addEventListener('click', openModal)
-    new NewQuestion(sel('.new-question-wrap'), render)
-    new NewComment(selAll('.qna'), render)
-  }
-
-  const openModal = () => {
-    this.$newQnAModal.style.display = MODAL_STATUS.OPEN
+    this.$newQnABtn = selector('.new-question-btn')
+    new Question(selector('.new-question-wrap'), render)
+    new Comment(allSelector('.qna'), render)
   }
 
   const contentLoading = () => {
@@ -47,7 +40,7 @@ export default function QnA () {
   }
 
   const renderQna = ({ answers, questions }) => {
-    const qnaWrap = sel('.qna-wrap')
+    const qnaWrap = selector('.qna-wrap')
     const answersMap = getAnswersMap(answers)
     const questionsWithComments = questions.map((question) => {
       if (answersMap[question.id]) {

@@ -1,18 +1,25 @@
 import { postQuestion } from '../utils/api.js'
-import { sel } from '../utils/util.js'
+import { selector } from '../utils/util.js'
 import { MESSEGE, MODAL_STATUS } from '../utils/constant.js'
 
-export default function NewQuestion ($modal, render) {
-  this.$title = sel('#q-title', $modal)
-  this.$question = sel('#q-content', $modal)
+export default function Question ($modal, render) {
+  this.$newQnABtn = selector('.new-question-btn')
+  this.$newQnAModal = selector('.new-question-wrap')
+  this.$title = selector('#q-title', $modal)
+  this.$question = selector('#q-content', $modal)
 
   const init = () => {
     addDomEvent()
   }
 
   const addDomEvent = () => {
+    this.$newQnABtn.addEventListener('click', openQuestionModal)
     $modal.addEventListener('click', closeQuestionModal)
     $modal.addEventListener('submit', handleNewQuestion)
+  }
+
+  const openQuestionModal = () => {
+    this.$newQnAModal.style.display = MODAL_STATUS.OPEN
   }
 
   const closeQuestionModal = ({ target }) => {

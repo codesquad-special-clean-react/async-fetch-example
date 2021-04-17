@@ -1,6 +1,6 @@
-export const sel = (v, el = document) => el.querySelector(v);
+export const selector = (v, el = document) => el.querySelector(v);
 
-export const selAll = (v, el = document) => el.querySelectorAll(v);
+export const allSelector = (v, el = document) => el.querySelectorAll(v);
 
 export const getNowDate = () => {
   let d = new Date(),

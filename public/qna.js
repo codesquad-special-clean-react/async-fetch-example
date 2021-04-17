@@ -1,4 +1,4 @@
-import QnA from './javascript/QnA.js'
+import QnA from './Components/QnA.js'
 
 document.addEventListener('DOMContentLoaded', () => {
   new QnA()
