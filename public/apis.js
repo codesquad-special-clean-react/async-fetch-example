@@ -1,3 +1,5 @@
+import {delay} from './utils/timeUtils.js';
+
 const URL = {
     questions: 'http://localhost:3001/questions',
     answers: 'http://localhost:3001/answers',
@@ -33,6 +35,7 @@ export default {
     },
 
     async createAnswer({userId, questionId, content, date}) {
+        await delay(3000);
         return await post(URL.answers, {userId, questionId, content, date});
     },
 };
