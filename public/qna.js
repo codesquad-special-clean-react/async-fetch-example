@@ -6,6 +6,9 @@ const URL = {
 };
 
 const qnaWrap = document.querySelector('.qna-wrap');
+const newQuestionWrap = document.querySelector('.new-question-wrap');
+const newQuestionBtn = document.querySelector('.new-question-btn');
+const newQuestionCloseBtn = document.querySelector('.close-btn');
 
 function getAnswerTemplate(answers) {
   return answers.reduce((html, { content, userId, date }) => {
@@ -71,7 +74,13 @@ const init = async () => {
   qnaWrap.innerHTML = getQnATemplate(questionsAndAnswers);
 };
 
+const handleNewQuestionBtnClick = () => {
+  newQuestionWrap.classList.toggle('open');
+};
+
 document.addEventListener('DOMContentLoaded', () => {
   //코드시작
+  newQuestionBtn.addEventListener('click', handleNewQuestionBtnClick);
+  newQuestionCloseBtn.addEventListener('click', handleNewQuestionBtnClick);
   init();
 });
