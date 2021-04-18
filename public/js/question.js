@@ -36,6 +36,8 @@ const getData = async () => {
 const makeQuestionList = () => {
     questionData.map(item => selectMatchedComments(item, answerData));
     document.querySelector(".qna-wrap").innerHTML = getQnATemplate(questionData);
+
+    addAnswer();
 }
 
 

@@ -7,11 +7,13 @@ const selectMatchedComments = (item, answers) => {
 }
 
 const getLoadingAnswerTpl = (comments, questionId) => {
+    const loadingHtml = `<li class="answer-list loading" ">
+                            Loading.....
+                         </li>`;
+
     getAnswer(comments, questionId);
 
-    return `<li class="answer-list loading" ">
-        Loading.....
-     </li>`;
+    return loadingHtml;
 }
 
 const getAnswer = (answers, questionId) => {
@@ -25,14 +27,14 @@ const getAnswer = (answers, questionId) => {
 }
 
 const getAnswerTemplate = (answers, questionId) => {
+    console.log("answers",answers)
     const $answerUl = document.querySelector(`ul.answer[data-qIdx="${questionId}"]`);
 
     if (answers.length === 0) $answerUl.innerHTML = ``;
-
-    const commentHtml = answers.reduce((html, {content, userId, date}) => {
+    const commentHtml = answers.reduce((html, {id, content, userId, date}) => {
         return (
             html +
-            `<li class="answer-list" ">
+            `<li class="answer-list" _answerId="${id}">
                 <p class="answer-content">${content}</p>
                 <div class="answer-profile">
                     <span class="answer-writer">${userId} | </span>
@@ -43,4 +45,30 @@ const getAnswerTemplate = (answers, questionId) => {
     }, ``);
 
     $answerUl.innerHTML = commentHtml;
+}
+
+const addAnswer = () => {
+    const $answerSubmit = document.querySelectorAll(".answer-submit");
+
+    Array.from($answerSubmit).map(item => {
+        item.addEventListener("click", ({target}) => {
+            const questionId = target.closest("li.qna").getAttribute("_questionId");
+            const $answerTextarea = target.closest("div.answer-form").querySelector("form textarea");
+
+            answerData.push({
+                content: $answerTextarea.value,
+                date: getToday(),
+                id: (answerData.length + 2),
+                questionId: questionId,
+                userId: 1
+            });
+
+            const matchedComment = answerData.filter(item => {
+                return item.questionId == questionId;
+            })
+
+            getAnswerTemplate(matchedComment, questionId);
+        })
+    });
+
 }
