@@ -52,12 +52,21 @@ function getQnATemplate(data) {
   }, ``);
 }
 
-const init = () => {
+const init = async () => {
   qnaWrap.innerHTML = getLoadingAnswerTpl();
 
-  fetch(URL.questions)
+  const answers = await fetch(URL.answers)
     .then((response) => response.json())
-    .then((questions) => (qnaWrap.innerHTML = getQnATemplate(questions)));
+    .then((answers) => answers);
+  const questionsAndAnswers = await fetch(URL.questions)
+    .then((response) => response.json())
+    .then((questions) => {
+      questions.forEach((q) => {
+        q.matchedComments = answers.filter((a) => a.questionId === q.id);
+      });
+      return questions;
+    });
+  qnaWrap.innerHTML = getQnATemplate(questionsAndAnswers);
 };
 
 document.addEventListener('DOMContentLoaded', () => {
