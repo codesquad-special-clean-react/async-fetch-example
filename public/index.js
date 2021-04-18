@@ -41,22 +41,12 @@ const findAnswerData = (el) => {
   };
 };
 
-const postAnswerData = async (e) => {
-  const el = e.target;
-  const flag = el.classList.contains("answer-submit");
-  const ulFlag = el.closest("ul");
-  if (!flag || !ulFlag) {
-    return;
-  }
+const postAnswerData = async (el, answerEl) => {
   const data = findAnswerData(el);
-  addLoader(ulFlag.querySelector(".answer"));
+  addLoader(answerEl);
   delay(3000)
-    .then(() => {
-      api.postAnswer(data);
-    })
-    .then(() => {
-      setQnATemplate();
-    });
+    .then(() => api.postAnswer(data))
+    .then(() => setQnATemplate());
 };
 
 const postQuestionData = async () => {
@@ -68,19 +58,28 @@ const postQuestionData = async () => {
     userId: 2,
   };
   await api.postQuestion(data);
-  await setQnATemplate();
   questionTitle.value = "";
   questionContent.value = "";
 };
-
+  
 newQuestionBtn.addEventListener("click", () => toggleModal(newQuestionWrap));
 
 closeBtn.addEventListener("click", () => toggleModal(newQuestionWrap));
 
-qnaWrap.addEventListener("click", (e) => postAnswerData(e));
+qnaWrap.addEventListener("click", async (e) => {
+  const el = e.target;
+  const flag = el.classList.contains("answer-submit");
+  const answerEl = el.closest("li").querySelector(".answer");
+  if (!flag || !answerEl) {
+    return;
+  }
+  await postAnswerData(el, answerEl);
+});
 
 newQuestionSubmitBtn.addEventListener("click", async () => {
   await postQuestionData();
+  await delay(3000);
+  await setQnATemplate();
   toggleModal(newQuestionWrap);
 });
 
