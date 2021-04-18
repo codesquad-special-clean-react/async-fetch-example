@@ -16,12 +16,12 @@ export default function QnaMain({$el}) {
     };
 
     const bindEvents = () => {
-        $('[data-ref="new-question-open-btn"]', this.$el)
+        $('[data-ref="new-question-open-btn"]', $el)
             .addEventListener('click', () => openOrCloseNewQuestionModal(true));
     };
 
     const render = async () => {
-        this.$el.innerHTML = `
+        $el.innerHTML = `
             <div class="main-wrap">
                 <button class="new-question-btn" data-ref="new-question-open-btn">새로운질문</button>
                 <div data-component="questions"></div>
@@ -31,7 +31,7 @@ export default function QnaMain({$el}) {
 
         this.components = {
             questions: new QnaMainQuestions({
-                $el: $('[data-component="questions"]', this.$el),
+                $el: $('[data-component="questions"]', $el),
                 props: {
                     questions: this.state.questions,
                 },
@@ -39,7 +39,7 @@ export default function QnaMain({$el}) {
             }),
 
             newQuestionModal: new QnaMainNewQuestionModal({
-                $el: $('[data-component="new-question-modal"]', this.$el),
+                $el: $('[data-component="new-question-modal"]', $el),
                 props: {
                     isOpenNewQuestionModal: this.state.isOpenNewQuestionModal,
                 },
@@ -106,7 +106,6 @@ export default function QnaMain({$el}) {
     };
 
     const init = () => {
-        this.$el = $el;
         this.state = {
             questions: [],
             isOpenNewQuestionModal: false,

@@ -49,7 +49,7 @@ export default function QnaMainQuestions({$el, props, addNewAnswer}) {
     }
 
     const bindEvents = () => {
-        this.$el.addEventListener('click', async ({target}) => {
+        $el.addEventListener('click', async ({target}) => {
             if (target.dataset.ref !== 'new-answer-btn') {
                 return;
             }
@@ -63,16 +63,15 @@ export default function QnaMainQuestions({$el, props, addNewAnswer}) {
     };
 
     const render = () => {
-        this.$el.innerHTML = `
+        $el.innerHTML = `
             <ul class="qna-wrap"></ul>
         `;
-        $('.qna-wrap', this.$el).innerHTML = getQnATemplate(this.props.questions);
+        $('.qna-wrap', $el).innerHTML = getQnATemplate(this.props.questions);
 
         bindEvents();
     };
 
     const init = () => {
-        this.$el = $el;
         this.props = props;
         render();
     };

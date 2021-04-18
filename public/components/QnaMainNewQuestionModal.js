@@ -3,9 +3,9 @@ import {$} from '../utils/selector.js';
 export default function QnaMainNewQuestionModal({$el, props, openOrCloseNewQuestionModal, addNewQuestion}) {
 
     const bindEvents = () => {
-        $('[data-ref="new-question-close-btn"]', this.$el)
+        $('[data-ref="new-question-close-btn"]', $el)
             .addEventListener('click', () => openOrCloseNewQuestionModal(false));
-        $('[data-ref="new-question-form"]', this.$el)
+        $('[data-ref="new-question-form"]', $el)
             .addEventListener('submit', async (event) => {
                 event.preventDefault();
                 await addNewQuestion(Object.fromEntries(new FormData(event.target)));
@@ -15,11 +15,11 @@ export default function QnaMainNewQuestionModal({$el, props, openOrCloseNewQuest
     const render = () => {
 
         if (!this.props.isOpenNewQuestionModal) {
-            this.$el.innerHTML = '';
+            $el.innerHTML = '';
             return;
         }
 
-        this.$el.innerHTML = `
+        $el.innerHTML = `
             <div class="new-question-wrap">
                 <div class="close-btn" data-ref="new-question-close-btn">X</div>
                 <form id="new-q-form" action="#" method="post" data-ref="new-question-form">
@@ -40,7 +40,6 @@ export default function QnaMainNewQuestionModal({$el, props, openOrCloseNewQuest
     };
 
     const init = () => {
-        this.$el = $el;
         this.props = props;
         render();
     };
