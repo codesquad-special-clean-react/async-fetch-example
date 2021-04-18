@@ -1,9 +1,9 @@
 import getQnATemplate from "./components/Question.js";
-import matchedQuestionAnswer from "./utils/utils.js";
+import fetchQnAData from "./utils/fetchQnAData.js";
 
 const renderQnA = async () => {
   const $qnaWrap = document.querySelector(".qna-wrap");
-  const data = await matchedQuestionAnswer();
+  const data = await fetchQnAData();
 
   $qnaWrap.innerHTML = getQnATemplate(data);
 };

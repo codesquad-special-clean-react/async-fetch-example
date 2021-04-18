@@ -23,6 +23,12 @@
       "question": "질문 추가",
       "userId": 2,
       "id": 4
+    },
+    {
+      "title": "안녕하세요",
+      "question": "누구십니까?",
+      "userId": 2,
+      "id": 5
     }
   ],
   "answers": [
