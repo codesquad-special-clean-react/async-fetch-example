@@ -6,9 +6,9 @@ export default function QnaMainNewQuestionModal({$el, props, openOrCloseNewQuest
         $('[data-ref="new-question-close-btn"]', $el)
             .addEventListener('click', () => openOrCloseNewQuestionModal(false));
         $('[data-ref="new-question-form"]', $el)
-            .addEventListener('submit', async (event) => {
+            .addEventListener('submit', (event) => {
                 event.preventDefault();
-                await addNewQuestion(Object.fromEntries(new FormData(event.target)));
+                addNewQuestion(Object.fromEntries(new FormData(event.target)));
             });
     };
 

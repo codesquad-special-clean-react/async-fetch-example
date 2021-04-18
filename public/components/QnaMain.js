@@ -81,14 +81,15 @@ export default function QnaMain({$el}) {
      * @param title
      * @param question
      */
-    const addNewQuestion = async ({title, question}) => {
+    const addNewQuestion = ({title, question}) => {
         //todo validate new question(title, question)
 
         const userId = 2; //현재는 userId 고정
-        await apis.createQuestion({userId, title, question});
-        openOrCloseNewQuestionModal(false);
-
-        await fetchQuestions();
+        apis.createQuestion({userId, title, question})
+            .then(() => {
+                openOrCloseNewQuestionModal(false);
+                return fetchQuestions();
+            });
     };
 
     /**
@@ -96,13 +97,12 @@ export default function QnaMain({$el}) {
      * @param questionId
      * @param answerContent
      */
-    const addNewAnswer = async ({questionId, answerContent}) => {
+    const addNewAnswer = ({questionId, answerContent}) => {
         //todo validate new answer(answerContent)
 
         const userId = 2; //현재는 userId 고정
-        await apis.createAnswer({userId, questionId, content: answerContent, date: getNowDateText()});
-
-        await fetchQuestions();
+        apis.createAnswer({userId, questionId, content: answerContent, date: getNowDateText()})
+            .then(() => fetchQuestions());
     };
 
     const init = () => {

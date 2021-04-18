@@ -49,7 +49,7 @@ export default function QnaMainQuestions({$el, props, addNewAnswer}) {
     }
 
     const bindEvents = () => {
-        $el.addEventListener('click', async ({target}) => {
+        $el.addEventListener('click', ({target}) => {
             if (target.dataset.ref !== 'new-answer-btn') {
                 return;
             }
