@@ -8,7 +8,7 @@ let answerData = [];
 
 document.addEventListener('DOMContentLoaded', () => {
 	//코드시작
-	makeQuestionList();
+	questionInit();
 
 	newQuestionModal();
 });

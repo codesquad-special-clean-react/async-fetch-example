@@ -62,7 +62,7 @@ const getNewQuestionInfo = () => {
 
     clearQuestionForm();
     closeModal();
-    drawList();
+    makeQuestionList();
 }
 
 const clearQuestionForm = () => {

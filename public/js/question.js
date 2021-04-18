@@ -9,7 +9,7 @@ const getQnATemplate = (data) => {
 				<div class="question">
 					<p> ${question}</p>
 				</div>
-				<ul class="answer">${getAnswerTemplate(matchedComments)}</ul>
+				<ul class="answer" data-qIdx=${+id}>${getLoadingAnswerTpl(matchedComments, +id)}</ul>
 				<div class="answer-form">
 					<form method="POST">
 						<textarea name="answer-content" class="answer-content-textarea" cols="30" rows="2" placeholder="새로운답변.."></textarea>
@@ -21,18 +21,23 @@ const getQnATemplate = (data) => {
     }, ``);
 }
 
-const makeQuestionList = async () => {
+const questionInit = () => {
+    getData()
+    .then(() => {
+        makeQuestionList();
+    });
+}
+
+const getData = async () => {
     questionData = await getUrlData(URL.questions);
     answerData = await getUrlData(URL.answers);
-
-    drawList();
 }
 
-const drawList = () => {
+const makeQuestionList = () => {
     questionData.map(item => selectMatchedComments(item, answerData));
-
     document.querySelector(".qna-wrap").innerHTML = getQnATemplate(questionData);
 }
+
 
 const getUrlData = async (url) => {
     let res = await fetch(url);
