@@ -1,21 +1,14 @@
-import api from "./utils/api.js";
+import api from "./api/api.js";
 import getQnATemplate from "./components/Qna.js";
 import toggleModal from "./components/Modal.js";
 import addLoader from "./components/Loader.js";
+import delay from "./utils/utils.js";
 
 const qnaWrap = document.querySelector(".qna-wrap");
 const newQuestionBtn = document.querySelector(".new-question-btn");
 const newQuestionWrap = document.querySelector(".new-question-wrap");
 const newQuestionSubmitBtn = document.querySelector(".new-question-submit-btn");
 const closeBtn = document.querySelector(".close-btn");
-
-const delay = (delayTime) => {
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      resolve("Success");
-    }, delayTime);
-  });
-};
 
 const setQnATemplate = async () => {
   const questions = await api.getQuestionsAndAnswers();
