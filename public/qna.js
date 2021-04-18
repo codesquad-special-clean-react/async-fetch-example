@@ -61,10 +61,12 @@ const init = async () => {
   const questionsAndAnswers = await fetch(URL.questions)
     .then((response) => response.json())
     .then((questions) => {
-      questions.forEach((q) => {
-        q.matchedComments = answers.filter((a) => a.questionId === q.id);
-      });
-      return questions;
+      return questions.reduce((result, question) => {
+        question.matchedComments = answers.filter(
+          (answer) => answer.questionId === question.id
+        );
+        return [...result, question];
+      }, []);
     });
   qnaWrap.innerHTML = getQnATemplate(questionsAndAnswers);
 };
