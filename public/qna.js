@@ -7,8 +7,37 @@ const URL = {
 
 const qnaWrap = document.querySelector('.qna-wrap');
 const newQuestionWrap = document.querySelector('.new-question-wrap');
-const newQuestionBtn = document.querySelector('.new-question-btn');
+const newQuestionOpenBtn = document.querySelector('.new-question-btn');
 const newQuestionCloseBtn = document.querySelector('.close-btn');
+const qTitle = document.querySelector('#q-title');
+const qContent = document.querySelector('#q-content');
+const qForm = document.querySelector('#new-q-form');
+
+let QUESTION_CNT;
+const CURRENT_USER_ID = 2;
+
+const init = async () => {
+  qnaWrap.innerHTML = getLoadingAnswerTpl();
+
+  const answers = await fetch(URL.answers)
+    .then((response) => response.json())
+    .then((answers) => answers);
+  const { questionsAndAnswers, count } = await fetch(URL.questions)
+    .then((response) => response.json())
+    .then((questions) => {
+      return {
+        questionsAndAnswers: questions.reduce((result, question) => {
+          question.matchedComments = answers.filter(
+            (answer) => answer.questionId === question.id
+          );
+          return [...result, question];
+        }, []),
+        count: questions.length,
+      };
+    });
+  qnaWrap.innerHTML = getQnATemplate(questionsAndAnswers);
+  QUESTION_CNT = count;
+};
 
 function getAnswerTemplate(answers) {
   return answers.reduce((html, { content, userId, date }) => {
@@ -55,32 +84,35 @@ function getQnATemplate(data) {
   }, ``);
 }
 
-const init = async () => {
-  qnaWrap.innerHTML = getLoadingAnswerTpl();
-
-  const answers = await fetch(URL.answers)
-    .then((response) => response.json())
-    .then((answers) => answers);
-  const questionsAndAnswers = await fetch(URL.questions)
-    .then((response) => response.json())
-    .then((questions) => {
-      return questions.reduce((result, question) => {
-        question.matchedComments = answers.filter(
-          (answer) => answer.questionId === question.id
-        );
-        return [...result, question];
-      }, []);
-    });
-  qnaWrap.innerHTML = getQnATemplate(questionsAndAnswers);
-};
-
 const handleNewQuestionBtnClick = () => {
   newQuestionWrap.classList.toggle('open');
 };
 
+const handleSubmitBtn = (evt) => {
+  evt.preventDefault();
+  if (qTitle.value !== '' && qContent.value !== '') {
+    fetch(URL.questions, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        title: qTitle.value,
+        question: qContent.value,
+        userId: CURRENT_USER_ID,
+        id: QUESTION_CNT + 1,
+      }),
+    }).then((response) => response.ok && init());
+  }
+  qTitle.value = '';
+  qContent.value = '';
+  handleNewQuestionBtnClick();
+};
+
 document.addEventListener('DOMContentLoaded', () => {
   //코드시작
-  newQuestionBtn.addEventListener('click', handleNewQuestionBtnClick);
-  newQuestionCloseBtn.addEventListener('click', handleNewQuestionBtnClick);
   init();
+  newQuestionOpenBtn.addEventListener('click', handleNewQuestionBtnClick);
+  newQuestionCloseBtn.addEventListener('click', handleNewQuestionBtnClick);
+  qForm.addEventListener('submit', handleSubmitBtn);
 });
