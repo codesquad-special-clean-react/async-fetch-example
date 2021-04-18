@@ -29,6 +29,12 @@
       "question": "누구십니까?",
       "userId": 2,
       "id": 5
+    },
+    {
+      "title": "질문추가2",
+      "question": "질문을 추가합니다",
+      "userId": 2,
+      "id": 6
     }
   ],
   "answers": [
@@ -129,6 +135,20 @@
       "date": "2021-04-11",
       "userId": 1,
       "id": 20
+    },
+    {
+      "questionId": 1,
+      "content": "새로운 답변을 등록해",
+      "date": "2021-4-18",
+      "userId": 2,
+      "id": 21
+    },
+    {
+      "questionId": 5,
+      "content": "여기에도 등록해",
+      "date": "2021-4-18",
+      "userId": 2,
+      "id": 22
     }
   ],
   "users": [
