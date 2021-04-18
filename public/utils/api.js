@@ -26,16 +26,14 @@ const request = async (url, message = null) => {
 };
 
 const findQuestionMatchedAnswer = (answers, questionId) => {
-  return answers.filter((answer) => {
-    return answer.questionId === questionId;
-  });
+  return answers.filter((answer) => answer.questionId === questionId);
 };
 
 const setQnaData = ({ questions, answers }) => {
-  return questions.map((question) => {
-    question.matchedComments = findQuestionMatchedAnswer(answers, question.id);
-    return question;
-  });
+  return questions.map((question) => ({
+    ...question,
+    matchedComments: findQuestionMatchedAnswer(answers, question.id),
+  }));
 };
 
 const api = {
@@ -44,10 +42,10 @@ const api = {
       request(`${API_ENDPOINT}${URL.QUESTIOMS}`),
       request(`${API_ENDPOINT}${URL.ANSWERS}`),
     ])
-      .then((res) =>
+      .then(([questions, answers]) =>
         setQnaData({
-          questions: res[0],
-          answers: res[1],
+          questions,
+          answers,
         })
       )
       .then((data) => {

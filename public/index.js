@@ -61,13 +61,13 @@ const postQuestionData = async () => {
   questionTitle.value = "";
   questionContent.value = "";
 };
-  
+
 newQuestionBtn.addEventListener("click", () => toggleModal(newQuestionWrap));
 
 closeBtn.addEventListener("click", () => toggleModal(newQuestionWrap));
 
-qnaWrap.addEventListener("click", async (e) => {
-  const el = e.target;
+qnaWrap.addEventListener("click", async ({ target }) => {
+  const el = target;
   const flag = el.classList.contains("answer-submit");
   const answerEl = el.closest("li").querySelector(".answer");
   if (!flag || !answerEl) {
