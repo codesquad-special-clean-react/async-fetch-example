@@ -1,4 +1,4 @@
-const PORT_NUMBER = 3004;
+const PORT_NUMBER = 3001;
 
 const URL = {
   questions: `http://localhost:${PORT_NUMBER}/questions`,
@@ -13,30 +13,31 @@ const qTitle = document.querySelector('#q-title');
 const qContent = document.querySelector('#q-content');
 const qForm = document.querySelector('#new-q-form');
 
-let QUESTION_CNT;
 const CURRENT_USER_ID = 2;
 
-const init = async () => {
-  qnaWrap.innerHTML = getLoadingAnswerTpl();
-
+const fetchData = async () => {
   const answers = await fetch(URL.answers)
     .then((response) => response.json())
-    .then((answers) => answers);
-  const { questionsAndAnswers, count } = await fetch(URL.questions)
-    .then((response) => response.json())
-    .then((questions) => {
-      return {
-        questionsAndAnswers: questions.reduce((result, question) => {
-          question.matchedComments = answers.filter(
-            (answer) => answer.questionId === question.id
-          );
-          return [...result, question];
-        }, []),
-        count: questions.length,
-      };
+    .then((answers) => {
+      return answers;
     });
+  const questionsAndAnswers = await fetch(URL.questions)
+    .then((response) => response.json())
+    .then((questions) =>
+      questions.reduce((result, question) => {
+        question.matchedComments = answers.filter(
+          (answer) => answer.questionId === question.id
+        );
+        return [...result, question];
+      }, [])
+    );
   qnaWrap.innerHTML = getQnATemplate(questionsAndAnswers);
-  QUESTION_CNT = count;
+};
+
+const init = () => {
+  qnaWrap.innerHTML = getLoadingAnswerTpl();
+
+  setTimeout(fetchData, 1000);
 };
 
 function getAnswerTemplate(answers) {
@@ -65,7 +66,7 @@ function getQnATemplate(data) {
   return data.reduce((html, { title, question, id, matchedComments = [] }) => {
     return (
       html +
-      ` <li class="qna" _questionId=${+id}>
+      ` <li class="qna" data-questionId=${+id}>
         <div class="qna-title">
             <h2>${title}</h2>
         </div>
@@ -88,7 +89,7 @@ const handleNewQuestionBtnClick = () => {
   newQuestionWrap.classList.toggle('open');
 };
 
-const handleSubmitBtn = (evt) => {
+const handleSubmitNewQuestionForm = (evt) => {
   evt.preventDefault();
   if (qTitle.value !== '' && qContent.value !== '') {
     fetch(URL.questions, {
@@ -100,7 +101,6 @@ const handleSubmitBtn = (evt) => {
         title: qTitle.value,
         question: qContent.value,
         userId: CURRENT_USER_ID,
-        id: QUESTION_CNT + 1,
       }),
     }).then((response) => response.ok && init());
   }
@@ -109,10 +109,38 @@ const handleSubmitBtn = (evt) => {
   handleNewQuestionBtnClick();
 };
 
+const handleSubmitNewAnswerForm = ({ target }) => {
+  if (!target.matches('.answer-submit')) {
+    return;
+  }
+  const content = target
+    .closest('.answer-form')
+    .querySelector('.answer-content-textarea').value;
+  const userId = CURRENT_USER_ID;
+  const questionId = Number(target.closest('li').dataset.questionid);
+  const time = new Date();
+  const date =
+    time.getFullYear() + '-' + time.getMonth() + '-' + time.getDate();
+  const message = {
+    method: 'POST',
+    body: JSON.stringify({
+      userId,
+      questionId,
+      content,
+      date,
+    }),
+    headers: { 'Content-Type': 'application/json' },
+  };
+  fetch(URL.answers, message).then((response) => {
+    response.ok && fetchData();
+  });
+};
+
 document.addEventListener('DOMContentLoaded', () => {
   //코드시작
   init();
   newQuestionOpenBtn.addEventListener('click', handleNewQuestionBtnClick);
   newQuestionCloseBtn.addEventListener('click', handleNewQuestionBtnClick);
-  qForm.addEventListener('submit', handleSubmitBtn);
+  qForm.addEventListener('submit', handleSubmitNewQuestionForm);
+  qnaWrap.addEventListener('click', handleSubmitNewAnswerForm);
 });
