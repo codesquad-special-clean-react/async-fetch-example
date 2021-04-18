@@ -21,19 +21,23 @@ const getQnATemplate = (data) => {
     }, ``);
 }
 
- const makeQuestionList = async () => {
-    const questions = await getUrlData(URL.questions);
-    const answers = await getUrlData(URL.answers);
+const makeQuestionList = async () => {
+    questionData = await getUrlData(URL.questions);
+    answerData = await getUrlData(URL.answers);
 
-    questions.map(item => selectMatchedComments(item, answers));
-
-    document.querySelector(".qna-wrap").innerHTML = getQnATemplate(questions);
+    drawList();
 }
 
+const drawList = () => {
+    questionData.map(item => selectMatchedComments(item, answerData));
+
+    document.querySelector(".qna-wrap").innerHTML = getQnATemplate(questionData);
+}
 
 const getUrlData = async (url) => {
     let res = await fetch(url);
 
     return res.json();
 }
+
 
