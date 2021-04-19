@@ -5,19 +5,18 @@ import {$} from '../utils/selector.js';
 export default function QnaApp({$el}) {
 
     const render = () => {
-        this.$el.innerHTML = `
+        $el.innerHTML = `
             <div data-component="header"></div>
             <div data-component="qna-main"></div>
         `;
 
         this.components = {
-            header: new Header({$el: $('[data-component="header"]', this.$el)}),
-            qnaMain: new QnaMain({$el: $('[data-component="qna-main"]', this.$el)}),
+            header: new Header({$el: $('[data-component="header"]', $el)}),
+            qnaMain: new QnaMain({$el: $('[data-component="qna-main"]', $el)}),
         };
     };
 
     const init = () => {
-        this.$el = $el;
         render();
     };
 

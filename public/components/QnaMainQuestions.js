@@ -6,7 +6,7 @@ export default function QnaMainQuestions({$el, props, addNewAnswer}) {
         return answers.reduce((html, {content, userId, date}) => {
             return (
                 html +
-                `<li class="answer-list" ">
+                `<li class="answer-list">
                     <p class="answer-content">${content}</p>
                     <div class="answer-profile">
                         <span class="answer-writer">${userId} | </span>
@@ -17,9 +17,9 @@ export default function QnaMainQuestions({$el, props, addNewAnswer}) {
         }, ``);
     }
 
-    function getLoadingAnswerTpl() {
+    function getLoadingAnswerTemplate() {
         return (
-            `<li class="answer-list loading" ">
+            `<li class="answer-list loading">
                 Loading.....
             </li>`
         );
@@ -36,10 +36,12 @@ export default function QnaMainQuestions({$el, props, addNewAnswer}) {
                     <div class="question">
                         <p> ${question}</p>
                     </div>
-                    <ul class="answer">${getAnswerTemplate(matchedComments)}</ul>
+                    <ul class="answer" data-ref="answers">
+                        ${getAnswerTemplate(matchedComments)}
+                    </ul>
                     <div class="answer-form">
                         <form method="POST" data-ref="new-answer-form">
-                            <textarea name="answer-content" class="answer-content-textarea" cols="30" rows="2" placeholder="새로운답변.."></textarea>
+                            <textarea name="answer-content" class="answer-content-textarea" cols="30" rows="2" placeholder="새로운답변.." data-ref="new-answer-text"></textarea>
                         </form>
                         <button class="answer-submit" data-ref="new-answer-btn">등록</button>
                     </div>
@@ -49,7 +51,7 @@ export default function QnaMainQuestions({$el, props, addNewAnswer}) {
     }
 
     const bindEvents = () => {
-        this.$el.addEventListener('click', async ({target}) => {
+        $el.addEventListener('click', ({target}) => {
             if (target.dataset.ref !== 'new-answer-btn') {
                 return;
             }
@@ -58,21 +60,22 @@ export default function QnaMainQuestions({$el, props, addNewAnswer}) {
             const questionId = Number($question.getAttribute('_questionId'));
             const {'answer-content': answerContent} = Object.fromEntries(new FormData($('[data-ref="new-answer-form"]', $question)));
 
+            $('[data-ref="new-answer-text"]', $question).value = '';
+            $('[data-ref="answers"]', $question).innerHTML += getLoadingAnswerTemplate();
             addNewAnswer({questionId, answerContent});
         });
     };
 
     const render = () => {
-        this.$el.innerHTML = `
+        $el.innerHTML = `
             <ul class="qna-wrap"></ul>
         `;
-        $('.qna-wrap', this.$el).innerHTML = getQnATemplate(this.props.questions);
+        $('.qna-wrap', $el).innerHTML = getQnATemplate(this.props.questions);
 
         bindEvents();
     };
 
     const init = () => {
-        this.$el = $el;
         this.props = props;
         render();
     };
