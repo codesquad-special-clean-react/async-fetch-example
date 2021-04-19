@@ -19,22 +19,23 @@
     </header>
 
     <div class="main-wrap">
-        <button class="new-question-btn">새로운질문</button>
+        <button class="new-question-btn" data-action="new-question-addBtn">새로운질문</button>
         <ul class="qna-wrap">
         </ul>
 
         <div class="new-question-wrap">
-            <div class="close-btn">X</div>
+            <div class="close-btn" data-action="new-question-closeBtn">X</div>
             <form id="new-q-form" action="#" method="post">
                 <div>
                     <label for="q-title">제목</label>
-                    <input type="text" name="title" id="q-title">
+                    <input type="text" name="title" id="q-title" data-action="new-question-title">
                 </div>
                 <div>
                     <label for="q-content">내용</label>
-                    <textarea name="question" id="q-content" cols="30" rows="10"></textarea>
+                    <textarea name="question" id="q-content" cols="30" rows="10"
+                        data-action="new-question-content"></textarea>
                 </div>
-                <button type="submit">질문등록</button>
+                <button type="submit" data-action="new-question-submit">질문등록</button>
             </form>
         </div>
     </div>
