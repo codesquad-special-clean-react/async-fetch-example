@@ -25,25 +25,33 @@ const request = async (url, message = null) => {
   return data;
 };
 
-const setData = ({ questions, answers }) => {
-  return questions.map((question) => {
-    const matchedComments = answers.filter((answer) => {
-      return answer.questionId === question.id;
-    });
-    question.matchedComments = matchedComments;
-    return question;
-  });
+const findQuestionMatchedAnswer = (answers, questionId) => {
+  return answers.filter((answer) => answer.questionId === questionId);
+};
+
+const setQnaData = ({ questions, answers }) => {
+  return questions.map((question) => ({
+    ...question,
+    matchedComments: findQuestionMatchedAnswer(answers, question.id),
+  }));
 };
 
 const api = {
   getQuestionsAndAnswers: async () => {
-    const questions = await request(`${API_ENDPOINT}${URL.QUESTIOMS}`);
-    const answers = await request(`${API_ENDPOINT}${URL.ANSWERS}`);
-    const questionArray = await setData({
-      questions,
-      answers,
-    });
-    return questionArray;
+    const qna = Promise.all([
+      request(`${API_ENDPOINT}${URL.QUESTIOMS}`),
+      request(`${API_ENDPOINT}${URL.ANSWERS}`),
+    ])
+      .then(([questions, answers]) =>
+        setQnaData({
+          questions,
+          answers,
+        })
+      )
+      .then((data) => {
+        return data;
+      });
+    return qna;
   },
   getUsers: async () => {
     const users = await request(`${API_ENDPOINT}${URL.USERS}`);
